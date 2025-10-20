@@ -1,26 +1,122 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Кастомна тема через CSS змінні */
 @theme inline {
+  /* Фонові кольори */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Шрифти */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Сайдбар */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  /* Діаграми */
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+
+  /* Основні акценти */
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+
+  /* Інші */
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Радіуси */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Радіуси */
+  --radius: 0.625rem;
+
+  /* Основний фон і текст */
+  --background: #1B2316;            /* основний колір фону */
+  --foreground: #FFF;               /* основний колір тексту */
+
+  /* Картки, поповери, інше */
+  --card: #FFF;                     /* другорядний фон */
+  --card-foreground: #000;          /* другорядний текст */
+
+  --popover: #FFF;
+  --popover-foreground: #000;
+
+  /* Пріорітетні кольори */
+  --primary: #FFF;                  /* наприклад, для кнопок */
+  --primary-foreground: #1B2316;    /* текст на primary */
+
+  --secondary: #FFF;
+  --secondary-foreground: #1B2316;
+
+  --muted: #FFF;
+  --muted-foreground: #8F95A5;      /* третій колір тексту */
+
+  --accent: #496b34;                /* акцентний, бордери, ховери */
+  --accent-foreground: #1B2316;
+
+  --destructive: #e74c3c;           /* можна підправити при потребі */
+  --input: #C8D1C6;      /* новий менш яскравий колір */
+  --border: #C8D1C6;     /* якщо хочеш і бордери */
+  --ring: #B5BFB5;       /* outline для focus */
+
+  /* Діаграми — приклад, можна змінити під свій бренд */
+  --chart-1: #496b34;
+  --chart-2: #8F95A5;
+  --chart-3: #FFF;
+  --chart-4: #1B2316;
+  --chart-5: #000;
+
+  /* Сайдбар */
+  --sidebar: #FFF;
+  --sidebar-foreground: #1B2316;
+  --sidebar-primary: #1B2316;
+  --sidebar-primary-foreground: #FFF;
+  --sidebar-accent: #496b34;
+  --sidebar-accent-foreground: #1B2316;
+  --sidebar-border: #496b34;
+  --sidebar-ring: #496b34;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  scroll-behavior: smooth;
 }
+
