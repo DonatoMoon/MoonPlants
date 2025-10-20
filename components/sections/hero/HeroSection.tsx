@@ -1,6 +1,4 @@
 // components/sections/hero/HeroSection.tsx
-import { Button } from "@/components/ui/button";
-import Container from "@/components/layout/Container";
 import Image from 'next/image';
 import heroImg from '@/public/hero.png';
 import AuthCta from "@/components/auth/AuthCta"

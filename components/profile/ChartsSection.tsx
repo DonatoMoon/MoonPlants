@@ -1,9 +1,10 @@
+// components/profile/ChartsSection.tsx
 'use client';
 
-import PlantChart from './PlantChart';
+import PlantChart, { DataPoint, NumericSeriesKey } from './PlantChart';
 import { useState, useMemo } from 'react';
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { addDays, isAfter, isBefore, parseISO } from 'date-fns';
+import { isAfter, isBefore } from 'date-fns';
 
 type Measurement = {
     measured_at: string;
@@ -14,23 +15,23 @@ type Measurement = {
 };
 
 export default function ChartsSection({ measurements }: { measurements: Measurement[] }) {
-    if (!measurements || measurements.length === 0) {
-        return <div>No data to display.</div>;
-    }
+    // Якщо measurements пустий — ставимо "заглушку", щоб уникнути помилок з датами
+    const allDates = (measurements?.length
+            ? measurements
+            : [{ measured_at: new Date().toISOString(), soil_moisture: 0, air_humidity: 0, air_temp: 0, light: 0 }]
+    ).map(m => new Date(m.measured_at));
 
-    // 1. Визначаємо мін/макс дату
-    const allDates = measurements.map(m => new Date(m.measured_at));
-    const minDate = allDates.reduce((a, b) => a < b ? a : b, allDates[0]);
-    const maxDate = allDates.reduce((a, b) => a > b ? a : b, allDates[0]);
+    const minDate = allDates.reduce((a, b) => (a < b ? a : b), allDates[0]);
+    const maxDate = allDates.reduce((a, b) => (a > b ? a : b), allDates[0]);
 
-    // 2. Стейт для діапазону (по замовчуванню — всі дати)
-    const [dateRange, setDateRange] = useState<{ from: Date, to: Date }>({
+    const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
         from: minDate,
         to: maxDate,
     });
 
-    // 3. Фільтровані вимірювання
+    // Фільтрація за діапазоном дат
     const filtered = useMemo(() => {
+        if (!measurements?.length) return [];
         return measurements.filter(m => {
             const d = new Date(m.measured_at);
             return (!dateRange.from || !isBefore(d, dateRange.from))
@@ -38,8 +39,8 @@ export default function ChartsSection({ measurements }: { measurements: Measurem
         });
     }, [measurements, dateRange]);
 
-    // 4. Готуємо дані
-    const data = filtered.map(m => ({
+    // Готуємо дані для графіків (тип DataPoint)
+    const data: DataPoint[] = filtered.map(m => ({
         time: new Date(m.measured_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         soil_moisture: m.soil_moisture,
         air_humidity: m.air_humidity,
@@ -47,7 +48,8 @@ export default function ChartsSection({ measurements }: { measurements: Measurem
         light: m.light,
     }));
 
-    const chartConfigs = [
+    // Конфіги для кожного графіка
+    const chartConfigs: { key: NumericSeriesKey; name: string; color: string }[] = [
         { key: 'soil_moisture', name: 'Soil Moisture', color: '#2563eb' },
         { key: 'air_humidity', name: 'Air Humidity', color: '#0ea5e9' },
         { key: 'air_temp', name: 'Air Temperature', color: '#ef4444' },
@@ -56,7 +58,7 @@ export default function ChartsSection({ measurements }: { measurements: Measurem
 
     return (
         <div className="bflex flex-col gap-4 w-full">
-            {/* Date Range Picker */}
+            {/* Вибір діапазону дат */}
             <div className="w-full max-w-md mx-auto mb-4">
                 <DateRangePicker
                     from={dateRange.from}
@@ -66,18 +68,23 @@ export default function ChartsSection({ measurements }: { measurements: Measurem
                     max={maxDate}
                 />
             </div>
-            {/* Графіки */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-                {chartConfigs.map(config => (
-                    <PlantChart
-                        key={config.key}
-                        data={data}
-                        dataKey={config.key}
-                        label={config.name}
-                        color={config.color}
-                    />
-                ))}
-            </div>
+
+            {/* Якщо немає даних */}
+            {data.length === 0 ? (
+                <div>No data to display.</div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                    {chartConfigs.map(config => (
+                        <PlantChart
+                            key={config.key}
+                            data={data}
+                            dataKey={config.key}
+                            label={config.name}
+                            color={config.color}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

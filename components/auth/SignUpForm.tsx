@@ -33,14 +33,14 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
     const onSubmit = async (data: FormValues) => {
         setError(null);
         try {
-            // Викликаємо server action через FormData (роби кастомно, або передавай як { email, password })
             const fd = new FormData();
             fd.append("email", data.email);
             fd.append("password", data.password);
             await signUp(fd);
-            if (onSuccess) onSuccess(); // Закриваєш модал
-        } catch (e: any) {
-            setError(e.message || "Registration failed");
+            if (onSuccess) onSuccess();
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : "Registration failed";
+            setError(msg);
         }
     };
 

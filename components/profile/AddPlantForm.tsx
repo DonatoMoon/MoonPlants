@@ -1,7 +1,7 @@
 // components/profile/AddPlantForm.tsx
 'use client';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState, useTransition } from "react";
@@ -85,10 +85,10 @@ export default function AddPlantForm({
                 });
                 if (onSubmitPlant) onSubmitPlant();
                 form.reset();
-            } catch (e: any) {
-                // Можна показати toast
-                alert(e.message || "Не вдалося додати рослину");
-            }
+            } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : "Не вдалося додати рослину";
+                alert(msg);
+        }
         });
     };
 

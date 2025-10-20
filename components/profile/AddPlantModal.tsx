@@ -1,7 +1,6 @@
 // components/profile/AddPlantModal.tsx
 'use client';
 
-import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import AddPlantForm from "@/components/profile/AddPlantForm";

@@ -38,16 +38,14 @@ export default async function ProfilePage() {
     }
 
     // 3. Останні виміри вологості для всіх рослин
-    let plantMoistureMap: Record<string, { soil_moisture: number, measured_at: string } | undefined> = {};
+    const plantMoistureMap: Record<string, { soil_moisture: number; measured_at: string } | undefined> = {};
     if (plantIds.length > 0) {
-        // Для кожної рослини знайти найновіший запис (можна було б GROUP BY + max, але в Supabase так простіше)
         const { data: allMeasurements } = await supabase
             .from('measurements')
             .select('plant_id, soil_moisture, measured_at')
             .in('plant_id', plantIds)
             .order('measured_at', { ascending: false });
 
-        // Для кожної рослини взяти перший (найновіший) запис
         for (const plantId of plantIds) {
             const found = allMeasurements?.find(m => m.plant_id === plantId);
             if (found) plantMoistureMap[plantId] = found;

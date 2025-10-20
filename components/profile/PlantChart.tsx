@@ -3,9 +3,15 @@
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
+// 1) Явно перелічуємо ключі числових рядів
+export type NumericSeriesKey = 'soil_moisture' | 'air_humidity' | 'air_temp' | 'light';
+
+// 2) Точка даних: time — string, а числові ряди — number
+export type DataPoint = { time: string } & Record<NumericSeriesKey, number>;
+
 type PlantChartProps = {
-    data: any[];
-    dataKey: string;
+    data: DataPoint[];
+    dataKey: NumericSeriesKey;   // тепер не вільний string, а один із ключів вище
     label: string;
     color: string;
 };

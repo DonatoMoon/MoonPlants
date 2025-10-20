@@ -3,7 +3,6 @@ import AboutItem from './AboutItem'
 import about1 from '@/public/about1.png'
 import about2 from '@/public/about2.png'
 import about3 from '@/public/about3.png'
-import Container from '@/components/layout/Container'
 
 const features = [
     {

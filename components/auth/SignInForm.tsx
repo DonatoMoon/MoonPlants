@@ -36,8 +36,9 @@ export default function SignInForm({ onSuccess }: { onSuccess?: () => void }) {
             fd.append("password", data.password);
             await signIn(fd);
             if (onSuccess) onSuccess();
-        } catch (e: any) {
-            setError(e.message || "Login failed");
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : "Login failed";
+            setError(msg);
         }
     };
 
