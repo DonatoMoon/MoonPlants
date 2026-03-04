@@ -5,9 +5,9 @@ export default function LastMeasurementsSection({
                                                     measurement,
                                                 }: {
     measurement: {
-        air_temp?: number | null,
-        air_humidity?: number | null,
-        light?: number | null,
+        air_temp_c?: number | null,
+        air_humidity_pct?: number | null,
+        light_lux?: number | null,
         measured_at?: string,
     } | null
 }) {
@@ -22,19 +22,19 @@ export default function LastMeasurementsSection({
                 <LastMeasurementItem
                     icon={<Thermometer className="w-8 h-8 text-red-400"/>}
                     label="Temperature"
-                    value={measurement.air_temp}
+                    value={measurement.air_temp_c}
                     unit="°C"
                 />
                 <LastMeasurementItem
                     icon={<Droplets className="w-8 h-8 text-blue-400"/>}
                     label="Humidity"
-                    value={measurement.air_humidity}
+                    value={measurement.air_humidity_pct}
                     unit="%"
                 />
                 <LastMeasurementItem
                     icon={<Sun className="w-8 h-8 text-yellow-400"/>}
                     label="Light"
-                    value={measurement.light}
+                    value={measurement.light_lux}
                     unit="lx"
                 />
             </div>

@@ -1,0 +1,38 @@
+# Supabase project configuration
+# Docs: https://supabase.com/docs/guides/cli/config
+
+[project]
+# project_id is set via `supabase link --project-ref <PROJECT_REF>`
+# Do NOT hardcode your project ref here.
+
+[db]
+# Port used only for local dev (not needed for cloud-only workflow)
+port = 54322
+shadow_port = 54320
+
+[db.migrations]
+# Migrations directory (relative to this file)
+schema_paths = []
+
+[api]
+# API settings (used for local dev only)
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[studio]
+# Supabase Studio (used for local dev only)
+port = 54323
+
+[auth]
+# Auth settings (used for local dev only)
+site_url = "http://localhost:3000"
+additional_redirect_urls = []
+jwt_expiry = 3600
+enable_signup = true
+
+[storage]
+# Storage settings (used for local dev only)
+file_size_limit = "50MiB"
+

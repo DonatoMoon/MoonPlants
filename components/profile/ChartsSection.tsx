@@ -8,17 +8,17 @@ import { isAfter, isBefore } from 'date-fns';
 
 type Measurement = {
     measured_at: string;
-    soil_moisture: number;
-    air_humidity: number;
-    air_temp: number;
-    light: number;
+    soil_moisture_pct: number;
+    air_humidity_pct: number;
+    air_temp_c: number;
+    light_lux: number;
 };
 
 export default function ChartsSection({ measurements }: { measurements: Measurement[] }) {
     // Якщо measurements пустий — ставимо "заглушку", щоб уникнути помилок з датами
     const allDates = (measurements?.length
             ? measurements
-            : [{ measured_at: new Date().toISOString(), soil_moisture: 0, air_humidity: 0, air_temp: 0, light: 0 }]
+            : [{ measured_at: new Date().toISOString(), soil_moisture_pct: 0, air_humidity_pct: 0, air_temp_c: 0, light_lux: 0 }]
     ).map(m => new Date(m.measured_at));
 
     const minDate = allDates.reduce((a, b) => (a < b ? a : b), allDates[0]);
@@ -42,10 +42,10 @@ export default function ChartsSection({ measurements }: { measurements: Measurem
     // Готуємо дані для графіків (тип DataPoint)
     const data: DataPoint[] = filtered.map(m => ({
         time: new Date(m.measured_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        soil_moisture: m.soil_moisture,
-        air_humidity: m.air_humidity,
-        air_temp: m.air_temp,
-        light: m.light,
+        soil_moisture: m.soil_moisture_pct,
+        air_humidity: m.air_humidity_pct,
+        air_temp: m.air_temp_c,
+        light: m.light_lux,
     }));
 
     // Конфіги для кожного графіка

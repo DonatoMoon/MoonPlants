@@ -19,17 +19,17 @@ export default async function ProfilePage() {
     const { data: plants } = await supabase
         .from('plants')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('owner_user_id', user.id)
         .order('created_at', { ascending: false });
 
     const plantIds = (plants ?? []).map(p => p.id);
 
-    // 2. Останній загальний вимір (air_temp, air_humidity, light)
+    // 2. Останній загальний вимір (air_temp_c, air_humidity_pct, light_lux)
     let lastMeasurement = null;
     if (plantIds.length > 0) {
         const { data } = await supabase
             .from('measurements')
-            .select('air_temp, air_humidity, light, measured_at')
+            .select('air_temp_c, air_humidity_pct, light_lux, measured_at')
             .in('plant_id', plantIds)
             .order('measured_at', { ascending: false })
             .limit(1)
@@ -38,11 +38,11 @@ export default async function ProfilePage() {
     }
 
     // 3. Останні виміри вологості для всіх рослин
-    const plantMoistureMap: Record<string, { soil_moisture: number; measured_at: string } | undefined> = {};
+    const plantMoistureMap: Record<string, { soil_moisture_pct: number; measured_at: string } | undefined> = {};
     if (plantIds.length > 0) {
         const { data: allMeasurements } = await supabase
             .from('measurements')
-            .select('plant_id, soil_moisture, measured_at')
+            .select('plant_id, soil_moisture_pct, measured_at')
             .in('plant_id', plantIds)
             .order('measured_at', { ascending: false });
 

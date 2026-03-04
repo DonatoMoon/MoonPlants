@@ -20,7 +20,7 @@ import SpeciesAutocomplete from "@/components/profile/SpeciesAutocomplete";
 const schema = z.object({
     nickname: z.string().min(1, "Вкажіть свою назву"),
     species_name: z.string().min(1, "Виберіть реальну назву"),
-    species_id: z.number().min(1, "Виберіть реальну назву"),
+    perenual_id: z.number().min(1, "Виберіть реальну назву"),
     image: z.any().optional(),
     age_months: z
         .union([z.string(), z.number()])
@@ -48,7 +48,7 @@ export default function AddPlantForm({
         defaultValues: {
             nickname: "",
             species_name: "",
-            species_id: undefined,
+            perenual_id: undefined,
             image: null,
             age_months: "",
             pot_height_cm: "",
@@ -76,7 +76,7 @@ export default function AddPlantForm({
                     user_id,
                     nickname: data.nickname,
                     species_name: data.species_name,
-                    species_id: data.species_id,
+                    perenual_id: data.perenual_id,
                     image_file,
                     age_months: data.age_months ? Number(data.age_months) : null,
                     pot_height_cm: data.pot_height_cm ? Number(data.pot_height_cm) : null,
@@ -124,7 +124,7 @@ export default function AddPlantForm({
                                     onChange={(val) => {
                                         // val: { name: string, id: number }
                                         form.setValue("species_name", val.name);
-                                        form.setValue("species_id", val.id);
+                                        form.setValue("perenual_id", val.id);
                                     }}
                                     placeholder="Ficus lyrata"
                                 />

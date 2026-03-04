@@ -6,7 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "openapi:export": "npx tsx scripts/export-openapi.ts",
+    "postman:export": "npx tsx scripts/export-openapi.ts && npx tsx scripts/openapi-to-postman.ts",
+    "db:pull": "supabase db pull",
+    "db:push": "supabase db push",
+    "db:new": "supabase migration new",
+    "db:status": "supabase migration list",
+    "db:reset": "echo 'db:reset is NOT used for Cloud projects. Use db:push to apply migrations to Cloud Supabase.'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -41,7 +48,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "openapi-to-postmanv2": "^6.0.0",
+    "supabase": "^2.76.16",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
   }

@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+./node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -43,5 +44,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Supabase CLI — temp files and local dev artifacts
+# supabase/config.toml and supabase/migrations/ MUST be committed
+supabase/.temp/
+supabase/.branches/
+# Never commit secrets — use `supabase login` or SUPABASE_ACCESS_TOKEN env var
+# SUPABASE_ACCESS_TOKEN goes in .env.local (already git-ignored via .env* rule)
 
 .vercel

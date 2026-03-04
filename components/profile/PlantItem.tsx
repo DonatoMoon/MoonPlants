@@ -13,7 +13,7 @@ type Plant = {
 };
 
 type PlantMoisture = {
-    soil_moisture: number;
+    soil_moisture_pct: number;
     measured_at: string;
 };
 
@@ -41,7 +41,7 @@ export default function PlantItem({
             <div className="text-white/80 text-sm mb-1">
                 Soil moisture:{" "}
                 {lastMoisture ? (
-                    <span className="font-semibold">{lastMoisture.soil_moisture}%</span>
+                    <span className="font-semibold">{lastMoisture.soil_moisture_pct}%</span>
                 ) : (
                     "--"
                 )}

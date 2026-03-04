@@ -29,10 +29,10 @@ export default async function PlantPage(props: { params: Promise<{ id: string }>
 
     const supabase = await createSupabaseServer();
 
-    // Витягуємо рослину
+    // Витягуємо рослину з даними виду
     const { data: plant } = await supabase
         .from('plants')
-        .select('*')
+        .select('*, species_cache:species_cache_id(perenual_id)')
         .eq('id', id)
         .maybeSingle();
 
@@ -51,7 +51,8 @@ export default async function PlantPage(props: { params: Promise<{ id: string }>
     const sortedMeasurements = measurements ? [...measurements].sort(
         (a, b) => new Date(a.measured_at).getTime() - new Date(b.measured_at).getTime()
     ) : [];
-    const speciesSlug = slugify((plant.species_name || plant.name || "").toString(), { lower: true, strict: true }) + "-" + plant.species_id;
+    const perenualId = (plant.species_cache as { perenual_id?: number } | null)?.perenual_id;
+    const speciesSlug = slugify((plant.species_name || plant.name || "").toString(), { lower: true, strict: true }) + (perenualId ? "-" + perenualId : "");
 
     // Далі структура:
     return (

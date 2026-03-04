@@ -13,7 +13,7 @@ type Plant = {
 };
 
 type PlantMoisture = {
-    soil_moisture: number;
+    soil_moisture_pct: number;
     measured_at: string;
 };
 
