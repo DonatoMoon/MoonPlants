@@ -23,9 +23,9 @@ const specJson = JSON.parse(specContent) as Record<string, unknown>;
 const conversionOptions = {
   requestNameSource: "Fallback" as const,
   indentCharacter: "Space" as const,
-  folderStrategy: "Tags",
+  folderStrategy: "Tags" as const,
   includeAuthInfoInExample: true,
-  exampleParametersResolution: "example",
+  exampleParametersResolution: "Example" as const,
   enableOptionalParameters: false,
 };
 
@@ -33,20 +33,20 @@ Converter.convert(
   { type: "json", data: specJson },
   conversionOptions,
   (
-    error: Error | null,
-    result: {
+    error: { message: string; name?: string } | null,
+    result?: {
       result: boolean;
-      output: Array<{ type: string; data: unknown }>;
+      output?: Array<{ type: string; data: object; name?: string }>;
       reason?: string;
     }
   ) => {
-    if (error || !result.result) {
-      console.error("❌  Conversion failed:", error ?? result.reason);
+    if (error || !result?.result) {
+      console.error("❌  Conversion failed:", error ?? result?.reason);
       process.exit(1);
     }
 
     // Find the collection output
-    const collectionOutput = result.output.find((o) => o.type === "collection");
+    const collectionOutput = result?.output?.find((o) => o.type === "collection");
     if (!collectionOutput) {
       console.error("❌  No collection in converter output");
       process.exit(1);
