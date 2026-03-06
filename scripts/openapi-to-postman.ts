@@ -22,7 +22,7 @@ const specJson = JSON.parse(specContent) as Record<string, unknown>;
 
 const conversionOptions = {
   requestNameSource: "Fallback" as const,
-  indentCharacter: "  ",
+  indentCharacter: "Space" as const,
   folderStrategy: "Tags",
   includeAuthInfoInExample: true,
   exampleParametersResolution: "example",
