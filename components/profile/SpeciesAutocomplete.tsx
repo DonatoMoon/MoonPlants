@@ -7,10 +7,10 @@ import Image from "next/image";
 type Option = { id: number; name: string; image?: string };
 
 export default function SpeciesAutocomplete({
-                                                value,
-                                                onChange,
-                                                ...props
-                                            }: {
+    value,
+    onChange,
+    ...props
+}: {
     value: string;
     onChange: (v: { name: string; id: number }) => void;
     placeholder?: string;
@@ -35,7 +35,7 @@ export default function SpeciesAutocomplete({
             setSuggestions(data);
             setLoading(false);
             setOpen(true);
-        }, 350);
+        }, 500);
     }, []);
 
     // cleanup timeout on unmount

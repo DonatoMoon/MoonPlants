@@ -28,16 +28,22 @@ export default async function PlantPage(props: { params: Promise<{ id: string }>
 
 
     const supabase = await createSupabaseServer();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return <div className="text-center py-10">Please sign in to view this page.</div>
+    }
 
     // Витягуємо рослину з даними виду
     const { data: plant } = await supabase
         .from('plants')
         .select('*, species_cache:species_cache_id(perenual_id)')
         .eq('id', id)
+        .eq('owner_user_id', user.id)
         .maybeSingle();
 
     if (!plant) {
-        return <div className="text-center py-10">Plant not found.</div>
+        return <div className="text-center py-10">Plant not found or you do not have permission to view it.</div>
     }
 
     // Витягуємо останні 20 вимірів для цієї рослини (для графіка)

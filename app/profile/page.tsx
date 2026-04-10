@@ -2,6 +2,7 @@
 
 import { createSupabaseServer } from '@/lib/supabase/server';
 import PlantsSection from '@/components/profile/PlantsSection';
+import DevicesSection from '@/components/profile/DevicesSection';
 import BackgroundImageContainer from '@/components/layout/BackgroundImageContainer';
 import Container from '@/components/layout/Container';
 import LastMeasurementsSection from '@/components/profile/LastMeasurementsSection';
@@ -62,6 +63,8 @@ export default async function ProfilePage() {
                 ) : (
                     <LastMeasurementsSection measurement={lastMeasurement} />
                 )}
+
+                <DevicesSection user_id={user.id} />
 
                 <PlantsSection plants={plants ?? []} user_id={user.id} plantMoistureMap={plantMoistureMap} />
 

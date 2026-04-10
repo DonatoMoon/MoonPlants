@@ -10,6 +10,8 @@ type Plant = {
     name: string;
     image_url?: string | null;
     last_watered_at?: string | null;
+    device_id?: string | null;
+    soil_channel?: number | null;
 };
 
 type PlantMoisture = {

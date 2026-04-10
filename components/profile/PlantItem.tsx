@@ -4,12 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { Unplug } from "lucide-react";
 
 type Plant = {
     id: string;
     name: string;
     image_url?: string | null;
     last_watered_at?: string | null;
+    device_id?: string | null;
+    soil_channel?: number | null;
 };
 
 type PlantMoisture = {
@@ -24,8 +27,21 @@ export default function PlantItem({
     plant: Plant;
     lastMoisture?: PlantMoisture;
 }) {
+    const isDisconnected = !plant.device_id;
+
     return (
-        <div className="bg-white/10 rounded-2xl p-4 flex flex-col items-center shadow w-full max-w-xs">
+        <div className="bg-white/10 rounded-2xl p-4 flex flex-col items-center shadow w-full max-w-xs relative overflow-hidden">
+            {isDisconnected ? (
+                <div className="absolute top-2 right-2 bg-red-500/80 text-white text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1 z-10 animate-pulse">
+                    <Unplug size={10} />
+                    Disconnected
+                </div>
+            ) : (
+                <div className="absolute top-2 right-2 bg-blue-500/80 text-white text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1 z-10">
+                    Channel: {plant.soil_channel}
+                </div>
+            )}
+            
             {plant.image_url && (
                 <Image
                     src={plant.image_url}

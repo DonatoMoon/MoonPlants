@@ -53,3 +53,6 @@ supabase/.branches/
 # SUPABASE_ACCESS_TOKEN goes in .env.local (already git-ignored via .env* rule)
 
 .vercel
+
+
+/session-logs/

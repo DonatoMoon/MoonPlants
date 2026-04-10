@@ -76,10 +76,20 @@ export async function POST(req: NextRequest) {
                 continue;
             }
 
+            // Simple MVP mapping: 800 raw (dry) -> 0%, 300 raw (wet) -> 100%
+            // Capacitive sensors usually output LOWER values when WET.
+            const dryValue = 800;
+            const wetValue = 300;
+            let moisturePct = Math.round(
+                ((dryValue - soil.moistureRaw) / (dryValue - wetValue)) * 100
+            );
+            moisturePct = Math.max(0, Math.min(100, moisturePct));
+
             rows.push({
                 plant_id: plantId,
                 device_id: deviceId,
                 soil_moisture_raw: soil.moistureRaw,
+                soil_moisture_pct: moisturePct,
                 air_temp_c: data.air?.tempC ?? null,
                 air_humidity_pct: data.air?.humidityPct ?? null,
                 light_lux: data.lightLux ?? null,

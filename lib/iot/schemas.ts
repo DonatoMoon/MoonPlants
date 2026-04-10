@@ -77,6 +77,15 @@ export const waterNowSchema = z.object({
 
 export type WaterNowInput = z.infer<typeof waterNowSchema>;
 
+// === Swap channels ===
+
+export const swapChannelsSchema = z.object({
+    plantId1: z.string().uuid(),
+    plantId2: z.string().uuid(),
+});
+
+export type SwapChannelsInput = z.infer<typeof swapChannelsSchema>;
+
 // === Light command ===
 
 export const lightCommandSchema = z.object({

@@ -5,6 +5,8 @@ import Footer from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { ArrowUpToLine } from "lucide-react";
 import AuthDialogController from '@/components/auth/AuthDialogController';
+import { Toaster } from "@/components/ui/sonner";
+
 export const metadata = {
     title: "MoonPlants — Smart Plant Care",
     description: "plant monitoring and recommendations.",
@@ -23,7 +25,7 @@ export default function RootLayout(
         <ScrollToTop aria-label="Back to top"><ArrowUpToLine/></ScrollToTop>
 
         <AuthDialogController />
-
+        <Toaster />
         </body>
         </html>
     );

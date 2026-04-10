@@ -111,30 +111,38 @@ export async function verifyIotDevice(
     ].join("\n");
 
     // hmac_secret is stored as bytea; Supabase returns it as hex-encoded string
-    // when accessed via service role
-    const secretBuffer = Buffer.from(cred.hmac_secret, "hex");
+    // potentially prefixed with \x
+    let rawSecret = cred.hmac_secret as string;
+    if (rawSecret.startsWith("\\x")) {
+        rawSecret = rawSecret.slice(2);
+    }
+    const secretBuffer = Buffer.from(rawSecret, "hex");
+    
     const expectedSig = createHmac("sha256", secretBuffer)
         .update(canonical)
         .digest("base64url");
 
-    const sigBuffer = Buffer.from(signature, "base64url");
-    const expectedBuffer = Buffer.from(expectedSig, "base64url");
-
-    if (
-        sigBuffer.length !== expectedBuffer.length ||
-        !timingSafeEqual(sigBuffer, expectedBuffer)
-    ) {
+    if (signature !== expectedSig) {
+        // Detailed log for debugging (remove in production)
+        console.warn(`[Auth] Signature mismatch for device ${deviceId}`);
+        console.warn(`[Auth] Canonical string:\n${canonical.replace(/\n/g, "\\n")}`);
         return { error: "Invalid signature", status: 401 };
     }
 
-    // 7. Update device state atomically
-    await supabase
+    // 7. Update device state atomically (anti-replay check)
+    const { data: updatedData, error: updateErr } = await supabase
         .from("devices")
         .update({
             last_seq: seq,
             last_seen_at: new Date().toISOString(),
         } as Database["public"]["Tables"]["devices"]["Update"])
-        .eq("id", deviceId);
+        .eq("id", deviceId)
+        .lt("last_seq", seq) // Atomic check: update only if new seq is higher
+        .select();
+
+    if (updateErr || !updatedData || updatedData.length === 0) {
+        return { error: "Replay detected: seq already used or outdated", status: 401 };
+    }
 
     return { deviceId, seq };
 }
