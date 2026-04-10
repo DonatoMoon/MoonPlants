@@ -1,0 +1,10 @@
+plant_instance_id,species_id,nickname,device_id,pot_diameter_cm,pot_height_cm,pot_volume_ml,soil_mix,soil_retention_factor,drainage_factor,orientation,baseline_air_temp_c,baseline_air_humidity_pct,baseline_light_peak_lux,sensor_dry_raw,sensor_wet_raw,user_schedule_interval_days
+1,728,aloe_01,dev_1301,12.0,13.2,1231,universal_potting,1.0,0.75,west_window,23.4,40.4,5630,332,818,9.35
+2,728,aloe_02,dev_1302,14.7,16.4,2286,cactus_mix,0.8,0.76,west_window,20.8,51.1,5765,330,843,8.46
+3,728,aloe_03,dev_1303,21.9,20.6,6364,universal_potting,1.0,0.73,east_window,19.3,31.4,6655,277,797,8.46
+4,2961,Indian_rubberplant_01,dev_1304,11.2,10.7,856,humus_rich,1.06,0.55,east_window,21.1,53.1,6090,328,840,7.07
+5,2961,Indian_rubberplant_02,dev_1305,16.4,15.9,2755,peat_perlite,1.12,0.64,west_window,20.6,37.7,6172,344,784,9.81
+6,2961,Indian_rubberplant_03,dev_1306,21.4,18.4,5445,humus_rich,1.06,0.76,east_window,21.3,49.8,5635,338,837,7.68
+7,1220,angelwing_begonia_01,dev_1307,12.7,10.8,1117,universal_potting,1.0,0.58,north_window,22.2,50.4,1413,314,841,3.29
+8,1220,angelwing_begonia_02,dev_1308,16.0,15.3,2520,peat_perlite,1.12,0.6,west_window,19.2,50.4,2896,308,850,3.1
+9,1220,angelwing_begonia_03,dev_1309,21.9,20.6,6339,peat_perlite,1.12,0.64,north_window,23.5,61.1,1465,330,817,4.37

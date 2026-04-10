@@ -1,0 +1,2581 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MoonPlants API",
+    "version": "1.0.0",
+    "description": "REST API for MoonPlants — smart plant monitoring and automated watering system. Consists of two namespaces:\n\n- **`/api/v1/`** — User-facing endpoints (Supabase JWT auth)\n- **`/api/iot/v1/`** — Device-facing endpoints (HMAC-SHA256 auth)",
+    "contact": {
+      "name": "MoonPlants"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    },
+    {
+      "url": "https://your-production-domain.com",
+      "description": "Production (replace with actual domain)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Devices",
+      "description": "User-facing device management (list, claim, control light)"
+    },
+    {
+      "name": "Plants",
+      "description": "User-facing plant management (CRUD, measurements, predictions, watering)"
+    },
+    {
+      "name": "IoT Device",
+      "description": "Device-facing endpoints for ESP32 firmware (HMAC auth required)"
+    },
+    {
+      "name": "Utility",
+      "description": "Helper endpoints (species autocomplete, etc.)"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Unauthorized"
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "display_name": {
+            "type": "string",
+            "example": "Balcony Hub #1"
+          },
+          "channels_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16,
+            "example": 4
+          },
+          "supports_pumps": {
+            "type": "boolean"
+          },
+          "supports_light": {
+            "type": "boolean"
+          },
+          "firmware_version": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "1.2.0"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "unclaimed",
+              "claimed",
+              "revoked"
+            ],
+            "example": "claimed"
+          },
+          "last_seen_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DeviceDetail": {
+        "type": "object",
+        "properties": {
+          "device": {
+            "$ref": "#/components/schemas/Device"
+          },
+          "plants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlantSummary"
+            }
+          },
+          "pendingCommands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceCommand"
+            }
+          }
+        }
+      },
+      "DeviceCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PUMP_WATER",
+              "LIGHT_ON",
+              "LIGHT_OFF"
+            ],
+            "example": "PUMP_WATER"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "sent",
+              "acked",
+              "failed",
+              "expired"
+            ],
+            "example": "queued"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "send_after": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "PlantSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Monstera Deliciosa"
+          },
+          "species_name": {
+            "type": "string"
+          },
+          "soil_channel": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "image_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "auto_watering_enabled": {
+            "type": "boolean"
+          },
+          "auto_light_enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Plant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "owner_user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "device_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Monstera Deliciosa"
+          },
+          "species_name": {
+            "type": "string"
+          },
+          "species_cache_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "soil_channel": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "image_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "image_source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "user",
+              "perenual",
+              "none"
+            ]
+          },
+          "auto_watering_enabled": {
+            "type": "boolean"
+          },
+          "auto_light_enabled": {
+            "type": "boolean"
+          },
+          "age_months": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pot_height_cm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pot_diameter_cm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pot_volume_ml": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "last_watered_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreatePlantRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "speciesName"
+        ],
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Optional: link to a claimed device"
+          },
+          "soilChannel": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16,
+            "description": "Device channel index (required when deviceId set)"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "My Monstera"
+          },
+          "speciesName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "example": "Monstera deliciosa"
+          },
+          "perenualId": {
+            "type": "integer",
+            "description": "Perenual species ID to auto-fetch image/data"
+          },
+          "potVolumeMl": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "potDiameterCm": {
+            "type": "number",
+            "minimum": 0
+          },
+          "potHeightCm": {
+            "type": "number",
+            "minimum": 0
+          },
+          "lastWateredAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "Measurement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "soil_moisture_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "soil_moisture_raw": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "air_temp_c": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "air_humidity_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "light_lux": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "battery_v": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "measured_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Prediction": {
+        "type": "object",
+        "properties": {
+          "plant_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "predicted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "next_watering_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "should_water_now": {
+            "type": "boolean"
+          }
+        }
+      },
+      "WateringEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "plant_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "auto",
+              "device"
+            ],
+            "example": "manual"
+          },
+          "water_ml": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "happened_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "CreateWateringEventRequest": {
+        "type": "object",
+        "properties": {
+          "waterMl": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Amount of water used in millilitres"
+          },
+          "happenedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO timestamp; defaults to now"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 500
+          }
+        }
+      },
+      "IotMeasurementPayload": {
+        "type": "object",
+        "required": [
+          "measuredAt",
+          "soil"
+        ],
+        "properties": {
+          "measuredAt": {
+            "type": "integer",
+            "description": "Unix epoch seconds",
+            "example": 1709481600
+          },
+          "air": {
+            "type": "object",
+            "properties": {
+              "tempC": {
+                "type": "number",
+                "minimum": -50,
+                "maximum": 100,
+                "example": 22.5
+              },
+              "humidityPct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "example": 55
+              }
+            }
+          },
+          "lightLux": {
+            "type": "number",
+            "minimum": 0,
+            "example": 2400
+          },
+          "soil": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "required": [
+                "channel",
+                "moistureRaw"
+              ],
+              "properties": {
+                "channel": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "moistureRaw": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                }
+              }
+            }
+          },
+          "batteryV": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "example": 3.8
+          },
+          "rssiDbm": {
+            "type": "integer",
+            "minimum": -120,
+            "maximum": 0,
+            "example": -67
+          }
+        }
+      },
+      "CommandAckPayload": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "failed",
+              "partial"
+            ]
+          },
+          "executedAt": {
+            "type": "integer",
+            "description": "Unix epoch seconds when executed"
+          },
+          "result": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Optional extra result data"
+          }
+        }
+      },
+      "ClaimDeviceRequest": {
+        "type": "object",
+        "required": [
+          "deviceId",
+          "claimCode"
+        ],
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "claimCode": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 64,
+            "example": "CLAIM-XXXX-YYYY-ZZZZ"
+          }
+        }
+      },
+      "LightCommandRequest": {
+        "type": "object",
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off",
+              "on_for"
+            ]
+          },
+          "durationSec": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 86400,
+            "description": "Required when mode = on_for"
+          }
+        }
+      },
+      "WaterNowRequest": {
+        "type": "object",
+        "required": [
+          "waterMl"
+        ],
+        "properties": {
+          "waterMl": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "example": 200
+          }
+        }
+      },
+      "PerenualResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "example": "Monstera deliciosa (Swiss cheese plant)"
+          },
+          "image": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "DeviceConfig": {
+        "type": "object",
+        "properties": {
+          "claimed": {
+            "type": "boolean"
+          },
+          "deviceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "channelsCount": {
+            "type": "integer"
+          },
+          "supportsPumps": {
+            "type": "boolean"
+          },
+          "supportsLight": {
+            "type": "boolean"
+          },
+          "firmwareVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "channel": {
+                  "type": "integer"
+                },
+                "plantId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "plantName": {
+                  "type": "string"
+                },
+                "autoWatering": {
+                  "type": "boolean"
+                },
+                "autoLight": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "config": {
+            "type": "object",
+            "properties": {
+              "measurementIntervalSec": {
+                "type": "integer",
+                "example": 300
+              },
+              "commandPollIntervalSec": {
+                "type": "integer",
+                "example": 60
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Supabase JWT access token. Pass via Authorization: Bearer <token>"
+      },
+      "IotHmac": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Device-Signature",
+        "description": "HMAC-SHA256 device signature. IoT endpoints require all 5 headers: X-Device-Id, X-Device-Seq, X-Device-Timestamp, X-Content-SHA256, X-Device-Signature. Canonical string = METHOD\\nPATH\\nX-Device-Id\\nX-Device-Seq\\nX-Device-Timestamp\\nX-Content-SHA256"
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "List user devices",
+        "description": "Returns all claimed devices owned by the authenticated user.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of devices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "devices": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Device"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Two devices returned",
+                    "value": {
+                      "devices": [
+                        {
+                          "id": "e2a3b1c4-0000-0000-0000-000000000001",
+                          "display_name": "Balcony Hub",
+                          "channels_count": 4,
+                          "supports_pumps": true,
+                          "supports_light": true,
+                          "firmware_version": "1.2.0",
+                          "status": "claimed",
+                          "last_seen_at": "2026-03-03T10:00:00Z",
+                          "created_at": "2026-01-01T00:00:00Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices/{deviceId}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get device details",
+        "description": "Returns device info, linked plants, and pending commands.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceDetail"
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Device with one plant",
+                    "value": {
+                      "device": {
+                        "id": "e2a3b1c4-0000-0000-0000-000000000001",
+                        "display_name": "Balcony Hub",
+                        "channels_count": 4,
+                        "supports_pumps": true,
+                        "supports_light": true,
+                        "firmware_version": "1.2.0",
+                        "status": "claimed",
+                        "last_seen_at": "2026-03-03T10:00:00Z",
+                        "created_at": "2026-01-01T00:00:00Z"
+                      },
+                      "plants": [
+                        {
+                          "id": "plant-uuid-001",
+                          "name": "Monstera",
+                          "species_name": "Monstera deliciosa",
+                          "soil_channel": 1,
+                          "image_url": null,
+                          "auto_watering_enabled": false,
+                          "auto_light_enabled": false
+                        }
+                      ],
+                      "pendingCommands": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices/claim": {
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Claim a device",
+        "description": "Links an unclaimed device to the authenticated user's account using the device's claim code.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimDeviceRequest"
+              },
+              "examples": {
+                "claim": {
+                  "summary": "Claim with valid code",
+                  "value": {
+                    "deviceId": "e2a3b1c4-0000-0000-0000-000000000001",
+                    "claimCode": "CLAIM-ABCD-EFGH-IJKL"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device claimed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "deviceId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Device already claimed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many failed attempts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices/{deviceId}/actions/light": {
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Send light command",
+        "description": "Queues a LIGHT_ON or LIGHT_OFF command for the device. The device picks it up on next poll.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LightCommandRequest"
+              },
+              "examples": {
+                "turnOn": {
+                  "summary": "Turn light on for 2 hours",
+                  "value": {
+                    "mode": "on_for",
+                    "durationSec": 7200
+                  }
+                },
+                "turnOff": {
+                  "summary": "Turn light off",
+                  "value": {
+                    "mode": "off"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Duplicate command (deduplicated)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "deduplicated": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Command queued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or device does not support light",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Active light command already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants": {
+      "post": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Create a plant",
+        "description": "Creates a new plant and optionally links it to a device channel. If a Perenual ID is supplied, species data and image are auto-fetched.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlantRequest"
+              },
+              "examples": {
+                "withDevice": {
+                  "summary": "Plant linked to device channel 1",
+                  "value": {
+                    "deviceId": "e2a3b1c4-0000-0000-0000-000000000001",
+                    "soilChannel": 1,
+                    "name": "My Monstera",
+                    "speciesName": "Monstera deliciosa",
+                    "perenualId": 1882,
+                    "potVolumeMl": 3000
+                  }
+                },
+                "standalone": {
+                  "summary": "Standalone plant without device",
+                  "value": {
+                    "name": "Cactus",
+                    "speciesName": "Echinocactus grusonii"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Plant created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plant": {
+                      "$ref": "#/components/schemas/Plant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or channel out of range",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device not owned by user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Channel already in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants/{plantId}": {
+      "get": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Get plant details",
+        "description": "Returns plant info, its linked species cache, latest measurement, and latest prediction.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plant": {
+                      "$ref": "#/components/schemas/Plant"
+                    },
+                    "lastMeasurement": {
+                      "$ref": "#/components/schemas/Measurement",
+                      "nullable": true
+                    },
+                    "lastPrediction": {
+                      "$ref": "#/components/schemas/Prediction",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Delete a plant",
+        "description": "Permanently deletes the plant and all related measurements, predictions, and watering events (CASCADE).",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants/{plantId}/measurements": {
+      "get": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Get plant measurements",
+        "description": "Returns time-series measurements for the plant. Supports optional ISO date range filtering.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start of time range (ISO 8601)"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End of time range (ISO 8601)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 200
+            },
+            "description": "Max records to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Measurements list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "measurements": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Measurement"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Single measurement",
+                    "value": {
+                      "measurements": [
+                        {
+                          "id": "meas-uuid-001",
+                          "soil_moisture_pct": 62.4,
+                          "soil_moisture_raw": 2450,
+                          "air_temp_c": 22.5,
+                          "air_humidity_pct": 55,
+                          "light_lux": 2400,
+                          "battery_v": 3.8,
+                          "measured_at": "2026-03-03T10:00:00Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants/{plantId}/predictions": {
+      "get": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Get watering prediction",
+        "description": "Runs the rule-based prediction model and returns the next watering recommendation.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prediction result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "prediction": {
+                      "$ref": "#/components/schemas/Prediction"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants/{plantId}/watering-events": {
+      "post": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Record manual watering",
+        "description": "Logs a manual watering event and updates last_watered_at on the plant.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWateringEventRequest"
+              },
+              "examples": {
+                "basic": {
+                  "summary": "200 ml watering now",
+                  "value": {
+                    "waterMl": 200
+                  }
+                },
+                "withNote": {
+                  "summary": "Watering with note",
+                  "value": {
+                    "waterMl": 150,
+                    "happenedAt": "2026-03-03T08:00:00Z",
+                    "note": "After repotting"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Watering event created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "event": {
+                      "$ref": "#/components/schemas/WateringEvent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants/{plantId}/actions/water-now": {
+      "post": {
+        "tags": [
+          "Plants"
+        ],
+        "summary": "Trigger automated watering",
+        "description": "Creates a PUMP_WATER device command. The system checks if watering is actually needed first. Returns commandCreated: false with a warning if watering is not recommended.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterNowRequest"
+              },
+              "examples": {
+                "waterNow": {
+                  "summary": "Water 200 ml",
+                  "value": {
+                    "waterMl": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Watering skipped (not needed) or deduplicated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "warning": {
+                      "type": "string"
+                    },
+                    "commandCreated": {
+                      "type": "boolean"
+                    },
+                    "commandId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "deduplicated": {
+                      "type": "boolean",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Water command queued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "commandCreated": {
+                      "type": "boolean"
+                    },
+                    "check": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Plant not linked to device channel",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/iot/v1/measurements": {
+      "post": {
+        "tags": [
+          "IoT Device"
+        ],
+        "summary": "Submit sensor measurements",
+        "description": "ESP32 posts sensor data for all active channels. The server maps channels to plant_ids and stores measurements. Uses upsert on (device_id, seq, plant_id) for idempotency.",
+        "security": [
+          {
+            "IotHmac": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Device-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Device UUID"
+          },
+          {
+            "name": "X-Device-Seq",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Monotonic sequence counter stored in flash"
+          },
+          {
+            "name": "X-Device-Timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Current Unix epoch seconds (must be within ±120s of server time)"
+          },
+          {
+            "name": "X-Content-SHA256",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex SHA-256 of the request body (empty string for GET requests)"
+          },
+          {
+            "name": "X-Device-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "base64url(HMAC-SHA256(secret, canonical_string)) where canonical_string = METHOD\\nPATH\\nX-Device-Id\\nX-Device-Seq\\nX-Device-Timestamp\\nX-Content-SHA256"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IotMeasurementPayload"
+              },
+              "examples": {
+                "twoChannels": {
+                  "summary": "2-channel measurement with all sensors",
+                  "value": {
+                    "measuredAt": 1709481600,
+                    "air": {
+                      "tempC": 22.5,
+                      "humidityPct": 55
+                    },
+                    "lightLux": 2400,
+                    "soil": [
+                      {
+                        "channel": 1,
+                        "moistureRaw": 2450
+                      },
+                      {
+                        "channel": 2,
+                        "moistureRaw": 3100
+                      }
+                    ],
+                    "batteryV": 3.8,
+                    "rssiDbm": -67
+                  }
+                },
+                "minimalPayload": {
+                  "summary": "Minimal payload (soil only)",
+                  "value": {
+                    "measuredAt": 1709481600,
+                    "soil": [
+                      {
+                        "channel": 1,
+                        "moistureRaw": 2450
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Measurements ingested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ingested": {
+                      "type": "integer",
+                      "description": "Number of rows stored"
+                    },
+                    "ignoredChannels": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Channels with no linked plant"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON or payload schema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HMAC auth failed or missing headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/iot/v1/commands": {
+      "get": {
+        "tags": [
+          "IoT Device"
+        ],
+        "summary": "Poll pending commands",
+        "description": "Returns queued commands for this device (PUMP_WATER, LIGHT_ON, LIGHT_OFF). Stale commands are expired automatically. Fetched commands are marked as 'sent'.",
+        "security": [
+          {
+            "IotHmac": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Device-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Device UUID"
+          },
+          {
+            "name": "X-Device-Seq",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Monotonic sequence counter stored in flash"
+          },
+          {
+            "name": "X-Device-Timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Current Unix epoch seconds (must be within ±120s of server time)"
+          },
+          {
+            "name": "X-Content-SHA256",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex SHA-256 of the request body (empty string for GET requests)"
+          },
+          {
+            "name": "X-Device-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "base64url(HMAC-SHA256(secret, canonical_string)) where canonical_string = METHOD\\nPATH\\nX-Device-Id\\nX-Device-Seq\\nX-Device-Timestamp\\nX-Content-SHA256"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            },
+            "description": "Max commands to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending commands list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "PUMP_WATER",
+                              "LIGHT_ON",
+                              "LIGHT_OFF"
+                            ]
+                          },
+                          "payload": {
+                            "type": "object",
+                            "additionalProperties": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "pumpCommand": {
+                    "summary": "Pump water command",
+                    "value": {
+                      "commands": [
+                        {
+                          "id": "cmd-uuid-001",
+                          "type": "PUMP_WATER",
+                          "payload": {
+                            "channel": 1,
+                            "water_ml": 200,
+                            "max_duration_sec": 40
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "empty": {
+                    "summary": "No pending commands",
+                    "value": {
+                      "commands": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HMAC auth failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/iot/v1/commands/{commandId}/ack": {
+      "post": {
+        "tags": [
+          "IoT Device"
+        ],
+        "summary": "Acknowledge command execution",
+        "description": "Device reports whether a command succeeded or failed. On successful PUMP_WATER ack, a watering_event is auto-created.",
+        "security": [
+          {
+            "IotHmac": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Device-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Device UUID"
+          },
+          {
+            "name": "X-Device-Seq",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Monotonic sequence counter stored in flash"
+          },
+          {
+            "name": "X-Device-Timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Current Unix epoch seconds (must be within ±120s of server time)"
+          },
+          {
+            "name": "X-Content-SHA256",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex SHA-256 of the request body (empty string for GET requests)"
+          },
+          {
+            "name": "X-Device-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "base64url(HMAC-SHA256(secret, canonical_string)) where canonical_string = METHOD\\nPATH\\nX-Device-Id\\nX-Device-Seq\\nX-Device-Timestamp\\nX-Content-SHA256"
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandAckPayload"
+              },
+              "examples": {
+                "success": {
+                  "summary": "Command succeeded",
+                  "value": {
+                    "status": "ok",
+                    "executedAt": 1709481700
+                  }
+                },
+                "failed": {
+                  "summary": "Command failed",
+                  "value": {
+                    "status": "failed",
+                    "executedAt": 1709481700,
+                    "result": {
+                      "error": "pump_jam"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ack received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "alreadyAcked": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HMAC auth failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Command belongs to different device",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Command not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/iot/v1/device-config": {
+      "get": {
+        "tags": [
+          "IoT Device"
+        ],
+        "summary": "Get device configuration",
+        "description": "Returns the device's current configuration: claimed status, channel→plant mapping, measurement and command-poll intervals.",
+        "security": [
+          {
+            "IotHmac": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-Device-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Device UUID"
+          },
+          {
+            "name": "X-Device-Seq",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Monotonic sequence counter stored in flash"
+          },
+          {
+            "name": "X-Device-Timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Current Unix epoch seconds (must be within ±120s of server time)"
+          },
+          {
+            "name": "X-Content-SHA256",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Hex SHA-256 of the request body (empty string for GET requests)"
+          },
+          {
+            "name": "X-Device-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "base64url(HMAC-SHA256(secret, canonical_string)) where canonical_string = METHOD\\nPATH\\nX-Device-Id\\nX-Device-Seq\\nX-Device-Timestamp\\nX-Content-SHA256"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceConfig"
+                },
+                "examples": {
+                  "claimed": {
+                    "summary": "Claimed device with 2 channels",
+                    "value": {
+                      "claimed": true,
+                      "deviceId": "e2a3b1c4-0000-0000-0000-000000000001",
+                      "displayName": "Balcony Hub",
+                      "channelsCount": 4,
+                      "supportsPumps": true,
+                      "supportsLight": true,
+                      "firmwareVersion": "1.2.0",
+                      "channels": [
+                        {
+                          "channel": 1,
+                          "plantId": "plant-uuid-001",
+                          "plantName": "Monstera",
+                          "autoWatering": false,
+                          "autoLight": false
+                        }
+                      ],
+                      "config": {
+                        "measurementIntervalSec": 300,
+                        "commandPollIntervalSec": 60
+                      }
+                    }
+                  },
+                  "unclaimed": {
+                    "summary": "Unclaimed device",
+                    "value": {
+                      "claimed": false,
+                      "channelsCount": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HMAC auth failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/perenual-autocomplete": {
+      "get": {
+        "tags": [
+          "Utility"
+        ],
+        "summary": "Autocomplete plant species",
+        "description": "Searches the Perenual API for plant species by name. Returns a list of matches with ID, display name, and thumbnail image URL.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Search query string",
+            "example": "monstera"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autocomplete results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PerenualResult"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "monstera": {
+                    "summary": "Results for 'monstera'",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1882,
+                          "name": "Monstera deliciosa (Swiss cheese plant)",
+                          "image": "https://perenual.com/storage/species_img/1882/small/1882.jpg"
+                        }
+                      ]
+                    }
+                  },
+                  "empty": {
+                    "summary": "No query – empty result",
+                    "value": {
+                      "data": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+\documentclass[14pt,a4paper]{report}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\large Національний університет "Львівська політехніка" \\
+\vspace{5cm}
+\textbf{\Large БАКАЛАВРСЬКА ДИПЛОМНА РОБОТА} \\
+\vspace{1cm}
+Розробка інтелектуальної системи на базі Next.js та машинного навчання \\
+\vfill
+\end{center}
+\end{titlepage}
+
+\input{sections/00_abstract.tex}
+
+\tableofcontents
+\newpage
+
+\input{sections/00_abbreviations.tex}
+\input{sections/01_introduction.tex}
+\input{sections/02_chapter1_analysis.tex}
+\input{sections/03_chapter2_design.tex}
+\input{sections/04_chapter3_implementation.tex}
+\input{sections/05_chapter4_experiments.tex}
+\input{sections/06_chapter5_economics.tex}
+\input{sections/07_conclusions.tex}
+
+\newpage
+\renewcommand{\bibname}{СПИСОК ВИКОРИСТАНОЇ ЛІТЕРАТУРИ}
+\addcontentsline{toc}{chapter}{СПИСОК ВИКОРИСТАНОЇ ЛІТЕРАТУРИ}
+\bibliographystyle{unsrt}
+\bibliography{references.bib}
+
+\input{sections/08_appendices.tex}
+
+\end{document}
