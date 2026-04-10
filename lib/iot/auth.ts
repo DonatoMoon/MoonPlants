@@ -11,7 +11,7 @@
 // canonical_string =
 //   METHOD\nPATH\nX-Device-Id\nX-Device-Seq\nX-Device-Timestamp\nX-Content-SHA256
 
-import { createHmac, createHash, timingSafeEqual } from "crypto";
+import { createHmac, createHash } from "crypto";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import type { Database } from "@/lib/supabase/database.types";
 

@@ -38,11 +38,11 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ plant }, { status: 201 });
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("[POST /api/v1/plants]", err);
         
         let status = 500;
-        const msg = err.message || "Internal server error";
+        const msg = err instanceof Error ? err.message : "Internal server error";
 
         if (msg.includes("not found") || msg.includes("not owned by you")) status = 403;
         else if (msg.includes("already in use")) status = 409;

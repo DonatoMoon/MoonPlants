@@ -31,9 +31,10 @@ export async function POST(
         const result = await PlantsService.updatePlantPhoto(user.id, plantId, file);
 
         return NextResponse.json(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("[POST /api/v1/plants/:id/photo]", err);
-        const status = err.message.includes("not found") ? 404 : 500;
-        return NextResponse.json({ error: err.message }, { status });
+        const msg = err instanceof Error ? err.message : String(err);
+        const status = msg.includes("not found") ? 404 : 500;
+        return NextResponse.json({ error: msg }, { status });
     }
 }

@@ -23,11 +23,11 @@ export async function GET(req: NextRequest) {
             status: "success",
             results
         });
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("[CRON ERROR]", err);
         return NextResponse.json({ 
             status: "error", 
-            message: err.message 
+            message: err instanceof Error ? err.message : String(err) 
         }, { status: 500 });
     }
 }

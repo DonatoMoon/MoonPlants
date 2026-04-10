@@ -32,10 +32,10 @@ export async function POST(
         await IoTService.swapChannels(user.id, deviceId, plantId1, plantId2);
 
         return NextResponse.json({ ok: true });
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("[POST /api/v1/devices/:id/actions/swap-channels]", err);
         return NextResponse.json(
-            { error: err.message || "Internal server error" },
+            { error: err instanceof Error ? err.message : "Internal server error" },
             { status: 400 }
         );
     }

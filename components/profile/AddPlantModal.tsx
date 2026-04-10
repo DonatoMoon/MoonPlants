@@ -8,7 +8,7 @@ import AddPlantForm from "@/components/profile/AddPlantForm";
 import { getClaimedDevices } from "@/app/actions/iot/claimDevice";
 
 export default function AddPlantModal({ open, onOpenChange, user_id }: { open: boolean, onOpenChange: (v: boolean) => void, user_id: string }) {
-    const [devices, setDevices] = useState<any[]>([]);
+    const [devices, setDevices] = useState<{ id: string; display_name: string | null; channels_count: number; }[]>([]);
 
     useEffect(() => {
         if (open) {

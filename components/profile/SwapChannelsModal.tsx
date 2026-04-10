@@ -50,7 +50,7 @@ export default function SwapChannelsModal({
             fetch(`/api/v1/devices/${deviceId}`)
                 .then(res => res.json())
                 .then(data => {
-                    const linkedPlants = (data.plants || []).filter((p: any) => p.soil_channel !== null);
+                    const linkedPlants = (data.plants || []).filter((p: { soil_channel: number | null }) => p.soil_channel !== null);
                     setPlants(linkedPlants);
                 });
         }

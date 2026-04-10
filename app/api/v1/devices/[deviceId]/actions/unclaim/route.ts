@@ -20,11 +20,12 @@ export async function POST(
         await IoTService.unclaimDevice(user.id, deviceId);
 
         return NextResponse.json({ ok: true });
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("[POST /api/v1/devices/:id/actions/unclaim]", err);
+        const msg = err instanceof Error ? err.message : String(err);
         return NextResponse.json(
-            { error: err.message || "Internal server error" },
-            { status: err.message === "Device not found" ? 404 : 403 }
+            { error: msg || "Internal server error" },
+            { status: msg === "Device not found" ? 404 : 403 }
         );
     }
 }

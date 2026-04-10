@@ -2,7 +2,7 @@
 // Кеш видів рослин: Perenual API → Supabase Storage + species_cache table
 
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import type { Database, Json } from "@/lib/supabase/database.types";
+import type { Json } from "@/lib/supabase/database.types";
 
 const PERENUAL_BASE = "https://perenual.com/api/v2";
 

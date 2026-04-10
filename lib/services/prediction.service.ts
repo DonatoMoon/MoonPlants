@@ -10,7 +10,7 @@ export class PredictionService {
         const results = {
             processed: 0,
             watered: 0,
-            errors: [] as any[]
+            errors: [] as {plantId: string; error: string}[]
         };
 
         // 1. Fetch all plants linked to a device
@@ -46,9 +46,9 @@ export class PredictionService {
                         results.watered++;
                     }
                 }
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error(`[PredictionService] Error processing plant ${plant.id}:`, err);
-                results.errors.push({ plantId: plant.id, error: err.message });
+                results.errors.push({ plantId: plant.id, error: err instanceof Error ? err.message : String(err) });
             }
         }
 

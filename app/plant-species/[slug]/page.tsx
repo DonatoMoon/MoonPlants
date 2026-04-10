@@ -1,7 +1,6 @@
 // app/plant-species/[slug]/page.tsx
 
 import { notFound } from "next/navigation";
-import slugify from "slugify";
 
 export const dynamic = "force-dynamic"; // якщо хочеш завжди свіжі дані
 
@@ -34,6 +33,7 @@ export default async function PlantSpeciesPage(props: { params: Promise<{ slug: 
                 {species.scientific_name?.join(", ")}
             </div>
             {species.default_image?.regular_url && (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                     src={species.default_image.regular_url}
                     alt={species.common_name}

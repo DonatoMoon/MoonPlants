@@ -7,6 +7,7 @@ import type { Database } from "@/lib/supabase/database.types";
 type DeviceRow = Database["public"]["Tables"]["devices"]["Row"];
 type DeviceUpdate = Database["public"]["Tables"]["devices"]["Update"];
 type PlantRow = Database["public"]["Tables"]["plants"]["Row"];
+type PlantUpdate = Database["public"]["Tables"]["plants"]["Update"];
 type CommandRow = Database["public"]["Tables"]["device_commands"]["Row"];
 type CommandInsert = Database["public"]["Tables"]["device_commands"]["Insert"];
 
@@ -41,11 +42,13 @@ export class IoTService {
         const supabase = createSupabaseAdmin();
 
         // 1. Find device
-        const { data: device, error: deviceErr } = await supabase
+        const { data: deviceRaw, error: deviceErr } = await supabase
             .from("devices")
             .select("*")
             .eq("id", deviceId)
             .single();
+
+        const device = deviceRaw as DeviceRow | null;
 
         if (deviceErr || !device) {
             throw new Error("Device not found");
@@ -110,11 +113,13 @@ export class IoTService {
         const supabase = createSupabaseAdmin();
 
         // 1. Verify ownership
-        const { data: device, error: deviceErr } = await supabase
+        const { data: deviceRaw, error: deviceErr } = await supabase
             .from("devices")
             .select("id, owner_user_id")
             .eq("id", deviceId)
             .single();
+
+        const device = deviceRaw as { id: string; owner_user_id: string | null } | null;
 
         if (deviceErr || !device) {
             throw new Error("Device not found");
@@ -131,7 +136,7 @@ export class IoTService {
                 device_id: null,
                 soil_channel: null,
                 updated_at: new Date().toISOString()
-            } as any)
+            } as PlantUpdate)
             .eq("device_id", deviceId);
 
         if (plantsErr) {
@@ -162,11 +167,13 @@ export class IoTService {
         const supabase = createSupabaseAdmin();
 
         // 1. Verify device ownership
-        const { data: device } = await supabase
+        const { data: deviceRaw } = await supabase
             .from("devices")
             .select("id, owner_user_id")
             .eq("id", deviceId)
             .single();
+        
+        const device = deviceRaw as { id: string; owner_user_id: string | null } | null;
 
         if (!device || device.owner_user_id !== userId) {
             throw new Error("Device not found or not owned by you");
@@ -203,17 +210,17 @@ export class IoTService {
         // but we can update sequentially.
 
         // Use a very high channel as temp if needed, or just null it out first.
-        const { error: err1 } = await supabase.from("plants").update({ soil_channel: null } as any).eq("id", plantId1);
+        const { error: err1 } = await supabase.from("plants").update({ soil_channel: null } as PlantUpdate).eq("id", plantId1);
         if (err1) throw new Error("Swap failed at step 1");
 
-        const { error: err2 } = await supabase.from("plants").update({ soil_channel: ch1 } as any).eq("id", plantId2);
+        const { error: err2 } = await supabase.from("plants").update({ soil_channel: ch1 } as PlantUpdate).eq("id", plantId2);
         if (err2) {
             // rollback
-            await supabase.from("plants").update({ soil_channel: ch1 } as any).eq("id", plantId1);
+            await supabase.from("plants").update({ soil_channel: ch1 } as PlantUpdate).eq("id", plantId1);
             throw new Error("Swap failed at step 2: " + err2.message);
         }
 
-        const { error: err3 } = await supabase.from("plants").update({ soil_channel: ch2 } as any).eq("id", plantId1);
+        const { error: err3 } = await supabase.from("plants").update({ soil_channel: ch2 } as PlantUpdate).eq("id", plantId1);
         if (err3) {
             throw new Error("Swap failed at step 3: " + err3.message);
         }

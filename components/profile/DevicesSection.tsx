@@ -45,6 +45,7 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
 
     useEffect(() => {
         fetchDevices();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user_id]);
 
     const handleSuccess = () => {
@@ -124,14 +125,14 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
                                     <AlertDialog>
                                         <AlertDialogTrigger asChild>
                                             <Button variant="destructive" size="sm" className="w-full">
-                                                <Unplug className="mr-2 h-4 w-4" /> Від'єднати
+                                                <Unplug className="mr-2 h-4 w-4" /> Від&apos;єднати
                                             </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent className="bg-slate-900 border-white/20 text-white">
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Ви впевнені?</AlertDialogTitle>
                                                 <AlertDialogDescription className="text-white/60">
-                                                    Це від'єднає контролер від вашого акаунту. Усі рослини залишаться, але не будуть отримувати дані з датчиків, доки ви не підключите їх до нового пристрою.
+                                                    Це від&apos;єднає контролер від вашого акаунту. Усі рослини залишаться, але не будуть отримувати дані з датчиків, доки ви не підключите їх до нового пристрою.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
@@ -140,7 +141,7 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
                                                     onClick={() => handleUnclaim(device.id)}
                                                     className="bg-red-600 hover:bg-red-700 text-white"
                                                 >
-                                                    Від'єднати
+                                                    Від&apos;єднати
                                                 </AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>

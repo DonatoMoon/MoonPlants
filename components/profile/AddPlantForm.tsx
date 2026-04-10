@@ -24,7 +24,7 @@ const schema = z.object({
     perenual_id: z.number().min(1, "Виберіть реальну назву"),
     image: z.any().optional(),
     deviceId: z.string().optional().nullable(),
-    soilChannel: z.coerce.number().int().min(1).max(16).optional().nullable(),
+    soilChannel: z.number().int().min(1).max(16).nullable().optional(),
     age_months: z
         .union([z.string(), z.number()])
         .refine(val => !val || !isNaN(Number(val)), "Некоректний вік"),
@@ -46,7 +46,7 @@ export default function AddPlantForm({
                                      }: {
     user_id: string;
     onSubmitPlant?: () => void;
-    devices?: any[];
+    devices?: { id: string; display_name: string | null; channels_count: number; }[];
 }) {
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -142,7 +142,7 @@ export default function AddPlantForm({
                 <FormField
                     control={form.control}
                     name="species_name"
-                    render={({ field }) => (
+                    render={() => (
                         <FormItem>
                             <FormLabel>Реальна назва</FormLabel>
                             <FormControl>
@@ -251,6 +251,7 @@ export default function AddPlantForm({
                             </FormControl>
                             {imgPreview && (
                                 <div className="mt-2">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src={imgPreview} alt="Plant preview" className="rounded-lg w-32 h-32 object-cover" />
                                 </div>
                             )}

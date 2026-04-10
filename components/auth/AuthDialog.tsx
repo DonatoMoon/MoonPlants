@@ -16,11 +16,7 @@ import {
     CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 
-import { signIn } from "@/app/actions/auth/signIn";
-import { signUp } from "@/app/actions/auth/signUp";
 
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
