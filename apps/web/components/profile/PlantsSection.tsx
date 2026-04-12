@@ -12,6 +12,7 @@ type Plant = {
     last_watered_at?: string | null;
     device_id?: string | null;
     soil_channel?: number | null;
+    devices?: { display_name?: string | null } | null;
 };
 
 type PlantMoisture = {

@@ -19,7 +19,7 @@ export default async function ProfilePage() {
     // 1. Всі рослини користувача
     const { data: plants } = await supabase
         .from('plants')
-        .select('*')
+        .select(`*, devices (display_name)`)
         .eq('owner_user_id', user.id)
         .order('created_at', { ascending: false });
 

@@ -163,6 +163,68 @@ export class IoTService {
         return true;
     }
 
+    static async connectPlant(userId: string, deviceId: string, plantId: string, channel: number) {
+        const supabase = createSupabaseAdmin();
+
+        // 1. Verify device ownership
+        const { data: deviceRaw } = await supabase
+            .from("devices")
+            .select("id, owner_user_id, channels_count")
+            .eq("id", deviceId)
+            .single();
+
+        const device = deviceRaw as { id: string; owner_user_id: string | null; channels_count: number } | null;
+
+        if (!device || device.owner_user_id !== userId) {
+            throw new Error("Device not found or not owned by you");
+        }
+
+        if (channel < 1 || channel > device.channels_count) {
+            throw new Error(`Invalid channel. This device supports channels 1-${device.channels_count}`);
+        }
+
+        // 2. Verify plant ownership
+        const { data: plantRaw } = await supabase
+            .from("plants")
+            .select("id, owner_user_id, device_id, soil_channel")
+            .eq("id", plantId)
+            .single();
+
+        const plant = plantRaw as { id: string; owner_user_id: string; device_id: string | null; soil_channel: number | null } | null;
+
+        if (!plant || plant.owner_user_id !== userId) {
+            throw new Error("Plant not found or not owned by you");
+        }
+
+        // 3. Check if channel is already taken on this device
+        const { data: existingPlant } = await supabase
+            .from("plants")
+            .select("id, name")
+            .eq("device_id", deviceId)
+            .eq("soil_channel", channel)
+            .maybeSingle();
+
+        if (existingPlant) {
+            throw new Error(`Channel ${channel} is already occupied by "${existingPlant.name}"`);
+        }
+
+        // 4. Update plant
+        const { error: updateErr } = await supabase
+            .from("plants")
+            .update({
+                device_id: deviceId,
+                soil_channel: channel,
+                updated_at: new Date().toISOString()
+            } as PlantUpdate)
+            .eq("id", plantId);
+
+        if (updateErr) {
+            throw new Error(`Failed to connect plant: ${updateErr.message}`);
+        }
+
+        return true;
+    }
+
     static async swapChannels(userId: string, deviceId: string, plantId1: string, plantId2: string) {
         const supabase = createSupabaseAdmin();
 

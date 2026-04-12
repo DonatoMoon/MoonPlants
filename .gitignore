@@ -64,3 +64,8 @@ __pycache__/
 .DS_Store
 /session-logs/
 startup.ps1
+
+# Temporarily hidden from Git
+/diploma/
+/hardware/
+/services/

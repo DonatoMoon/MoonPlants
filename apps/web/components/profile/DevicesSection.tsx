@@ -4,9 +4,10 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Smartphone, Plus, Unplug, ArrowLeftRight } from 'lucide-react';
+import { Smartphone, Plus, Unplug, ArrowLeftRight, Link as LinkIcon } from 'lucide-react';
 import ClaimDeviceModal from './ClaimDeviceModal';
 import SwapChannelsModal from './SwapChannelsModal';
+import ConnectPlantModal from './ConnectPlantModal';
 import { getClaimedDevices, unclaimDevice } from '@/app/actions/iot/claimDevice';
 import { toast } from 'sonner';
 import {
@@ -33,6 +34,7 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
     const [devices, setDevices] = useState<Device[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [openSwapModal, setOpenSwapModal] = useState(false);
+    const [openConnectModal, setOpenConnectModal] = useState(false);
     const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -66,6 +68,11 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
     const openSwap = (deviceId: string) => {
         setSelectedDeviceId(deviceId);
         setOpenSwapModal(true);
+    };
+
+    const openConnect = (deviceId: string) => {
+        setSelectedDeviceId(deviceId);
+        setOpenConnectModal(true);
     };
 
     return (
@@ -117,6 +124,15 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
                                         variant="outline" 
                                         size="sm" 
                                         className="w-full bg-white/5 border-white/10 hover:bg-white/10"
+                                        onClick={() => openConnect(device.id)}
+                                    >
+                                        <LinkIcon className="mr-2 h-4 w-4" /> Підключити рослину
+                                    </Button>
+
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        className="w-full bg-white/5 border-white/10 hover:bg-white/10"
                                         onClick={() => openSwap(device.id)}
                                     >
                                         <ArrowLeftRight className="mr-2 h-4 w-4" /> Поміняти канали
@@ -163,6 +179,14 @@ export default function DevicesSection({ user_id }: { user_id: string }) {
             <SwapChannelsModal
                 open={openSwapModal}
                 onOpenChange={setOpenSwapModal}
+                deviceId={selectedDeviceId}
+                user_id={user_id}
+                onSuccess={fetchDevices}
+            />
+
+            <ConnectPlantModal
+                open={openConnectModal}
+                onOpenChange={setOpenConnectModal}
                 deviceId={selectedDeviceId}
                 user_id={user_id}
                 onSuccess={fetchDevices}

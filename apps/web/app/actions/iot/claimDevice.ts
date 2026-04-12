@@ -37,6 +37,17 @@ export async function swapChannels(userId: string, deviceId: string, plantId1: s
     }
 }
 
+export async function connectPlant(userId: string, deviceId: string, plantId: string, channel: number) {
+    try {
+        await IoTService.connectPlant(userId, deviceId, plantId, channel);
+        revalidatePath('/profile');
+        return { success: true };
+    } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Failed to connect plant";
+        return { success: false, error: msg };
+    }
+}
+
 export async function getClaimedDevices(userId: string) {
     try {
         return await IoTService.getClaimedDevices(userId);

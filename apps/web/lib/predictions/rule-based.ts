@@ -210,17 +210,19 @@ export async function doubleCheckBeforeWatering(
 
     // 3. Decision logic
     if (recentWatering) {
-        return {
-            shouldWater: false,
-            reason: `Recent watering detected at ${recentWatering.happened_at} (${recentWatering.water_ml}ml). Skipping.`,
-        };
+        console.log(`Recent watering detected at ${recentWatering.happened_at} (${recentWatering.water_ml}ml).`);
+        // return {
+        //     shouldWater: false,
+        //     reason: `Recent watering detected at ${recentWatering.happened_at} (${recentWatering.water_ml}ml). Skipping.`,
+        // };
     }
 
     if (latest && Number(latest.soil_moisture_pct) > 60) {
-        return {
-            shouldWater: false,
-            reason: `Soil moisture already at ${latest.soil_moisture_pct}% (above 60% threshold). Skipping.`,
-        };
+        console.log(`Soil moisture already at ${latest.soil_moisture_pct}% (above 60% threshold).`);
+        // return {
+        //     shouldWater: false,
+        //     reason: `Soil moisture already at ${latest.soil_moisture_pct}% (above 60% threshold). Skipping.`,
+        // };
     }
 
     return {
