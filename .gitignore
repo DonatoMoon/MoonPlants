@@ -10,6 +10,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+/apps/web/scripts
+
 # Next.js Typescript
 /apps/web/*.tsbuildinfo
 /apps/web/next-env.d.ts
@@ -29,12 +31,17 @@ __pycache__/
 /services/**/.pytest_cache/
 /services/**/.venv/
 /services/**/venv/
-/services/**/env/
 /services/**/*.log
-/services/**/artifacts/
+/services/**/*.csv
+/services/**/artifacts/features_cache.parquet
 /services/**/test_output.txt
 
+# Do not track ML research (only deployable APIs like moonplants_api)
+/services/moonplants_ml/
+/services/moonplants_lstm/
+
 # C++ / ESP32
+#/hardware/
 /hardware/esp32/.pio/
 /hardware/esp32/build/
 /hardware/esp32/CMakeCache.txt
@@ -43,6 +50,7 @@ __pycache__/
 /hardware/esp32/cmake_install.cmake
 
 # LaTeX / Diploma
+/diploma/
 /diploma/**/*.aux
 /diploma/**/*.log
 /diploma/**/*.out
@@ -65,7 +73,15 @@ __pycache__/
 /session-logs/
 startup.ps1
 
+# AI Agents
+.agents/
+.claude/
+.gemini/
+skills-lock.json
+
 # Temporarily hidden from Git
-/diploma/
-/hardware/
-/services/
+
+
+
+
+MoonPlants Dev.exe.lnk
