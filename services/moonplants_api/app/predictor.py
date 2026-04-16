@@ -1,4 +1,5 @@
 import pickle
+import pathlib
 import logging
 from pathlib import Path
 from datetime import datetime, timezone
@@ -14,6 +15,20 @@ MODELS_DIR = Path(__file__).parent.parent / "models"
 logger = logging.getLogger(__name__)
 
 
+class _CrossPlatformUnpickler(pickle.Unpickler):
+    """Replaces WindowsPath with PurePosixPath so pkl files saved on Windows
+    can be loaded on Linux (Railway)."""
+    def find_class(self, module, name):
+        if module == "pathlib" and name == "WindowsPath":
+            return pathlib.PurePosixPath
+        return super().find_class(module, name)
+
+
+def _load_pkl(path: Path):
+    with open(path, "rb") as f:
+        return _CrossPlatformUnpickler(f).load()
+
+
 class Predictor:
     def __init__(self):
         self.traj_model = None
@@ -23,12 +38,9 @@ class Predictor:
         self._loaded = False
 
     def load(self, supabase_url: str, supabase_key: str):
-        with open(MODELS_DIR / "trajectory_model.pkl", "rb") as f:
-            self.traj_model = pickle.load(f)
-        with open(MODELS_DIR / "tte_model.pkl", "rb") as f:
-            self.tte_model = pickle.load(f)
-        with open(MODELS_DIR / "amount_model.pkl", "rb") as f:
-            self.amt_model = pickle.load(f)
+        self.traj_model = _load_pkl(MODELS_DIR / "trajectory_model.pkl")
+        self.tte_model  = _load_pkl(MODELS_DIR / "tte_model.pkl")
+        self.amt_model  = _load_pkl(MODELS_DIR / "amount_model.pkl")
         self.data_client = SupabaseDataClient(supabase_url, supabase_key)
         self._loaded = True
         logger.info("Models loaded. traj=%s, tte=%s, amt=%s",
