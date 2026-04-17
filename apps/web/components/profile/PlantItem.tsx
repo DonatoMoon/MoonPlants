@@ -53,8 +53,8 @@ export default function PlantItem({
             } else {
                 alert("Water command queued!");
             }
-        } catch (e: any) {
-            alert("Error: " + e.message);
+        } catch (e) {
+            alert("Error: " + (e instanceof Error ? e.message : String(e)));
         } finally {
             setLoadingWater(false);
         }
@@ -75,8 +75,8 @@ export default function PlantItem({
             } else {
                 alert("Light command queued!");
             }
-        } catch (e: any) {
-            alert("Error: " + e.message);
+        } catch (e) {
+            alert("Error: " + (e instanceof Error ? e.message : String(e)));
         } finally {
             setLoadingLight(false);
         }

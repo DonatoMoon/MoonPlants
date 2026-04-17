@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
     Dialog,
     DialogContent,
@@ -47,13 +47,7 @@ export default function ConnectPlantModal({
     const [isLoading, setIsLoading] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
 
-    useEffect(() => {
-        if (open && deviceId) {
-            fetchData();
-        }
-    }, [open, deviceId]);
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setIsFetching(true);
         try {
             // 1. Get disconnected plants
@@ -66,7 +60,7 @@ export default function ConnectPlantModal({
             const deviceData = await deviceRes.json();
             
             const totalChannels = deviceData.device?.channels_count || 4;
-            const occupiedChannels = (deviceData.plants || []).map((p: any) => p.soil_channel);
+            const occupiedChannels = (deviceData.plants || []).map((p: { soil_channel: number | null }) => p.soil_channel);
             
             const free: number[] = [];
             for (let i = 1; i <= totalChannels; i++) {
@@ -81,7 +75,13 @@ export default function ConnectPlantModal({
         } finally {
             setIsFetching(false);
         }
-    };
+    }, [deviceId]);
+
+    useEffect(() => {
+        if (open && deviceId) {
+            fetchData();
+        }
+    }, [open, deviceId, fetchData]);
 
     const handleConnect = async () => {
         if (!selectedPlantId || !selectedChannel) {
