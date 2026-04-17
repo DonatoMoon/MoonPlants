@@ -139,7 +139,7 @@ export default function PlantItem({
                             onClick={handleWater} 
                             disabled={loadingWater}
                             size="sm" 
-                            variant="secondary" 
+                            variant="ghost" 
                             className="flex-1 h-8 bg-white/10 hover:bg-white/20 text-white border-0"
                         >
                             {loadingWater ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Droplet className="w-4 h-4 mr-1 text-blue-400" /> Water</>}
@@ -158,7 +158,7 @@ export default function PlantItem({
                             onClick={handleLight} 
                             disabled={loadingLight}
                             size="sm" 
-                            variant="secondary" 
+                            variant="ghost" 
                             className="flex-1 h-8 bg-white/10 hover:bg-white/20 text-white border-0"
                         >
                             {loadingLight ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Lightbulb className="w-4 h-4 mr-1 text-yellow-400" /> Light</>}
