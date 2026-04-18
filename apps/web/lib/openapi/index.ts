@@ -7,6 +7,7 @@ import { v1DevicePaths } from "./paths/v1.devices";
 import { v1PlantPaths } from "./paths/v1.plants";
 import { iotV1Paths } from "./paths/iot.v1";
 import { miscPaths } from "./paths/misc";
+import { v1CronPaths } from "./paths/v1.cron";
 
 export function getOpenApiSpec(): OpenAPIV3_1.Document {
   return {
@@ -65,7 +66,7 @@ export function getOpenApiSpec(): OpenAPIV3_1.Document {
       ...v1PlantPaths,
       ...iotV1Paths,
       ...miscPaths,
+      ...v1CronPaths,
     },
   };
 }
-

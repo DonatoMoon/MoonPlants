@@ -236,5 +236,71 @@ export const v1DevicePaths: OpenAPIV3_1.PathsObject = {
       },
     },
   },
+
+  "/api/v1/devices/{deviceId}/actions/swap-channels": {
+    post: {
+      tags: ["Devices"],
+      summary: "Swap channels between two plants",
+      description: "Swaps the linked device channels for two plants belonging to this device.",
+      security: bearerSecurity,
+      parameters: [
+        {
+          name: "deviceId",
+          in: "path",
+          required: true,
+          schema: { type: "string", format: "uuid" },
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              required: ["plantId1", "plantId2"],
+              properties: {
+                plantId1: { type: "string", format: "uuid" },
+                plantId2: { type: "string", format: "uuid" },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "Channels swapped successfully",
+          content: { "application/json": { schema: { type: "object", properties: { ok: { type: "boolean" } } } } },
+        },
+        "400": { description: "Invalid input", content: { "application/json": { schema: errorSchema } } },
+        "401": { description: "Unauthorized", content: { "application/json": { schema: errorSchema } } },
+      },
+    },
+  },
+
+  "/api/v1/devices/{deviceId}/actions/unclaim": {
+    post: {
+      tags: ["Devices"],
+      summary: "Unclaim device",
+      description: "Unlinks the device from the user's account.",
+      security: bearerSecurity,
+      parameters: [
+        {
+          name: "deviceId",
+          in: "path",
+          required: true,
+          schema: { type: "string", format: "uuid" },
+        },
+      ],
+      responses: {
+        "200": {
+          description: "Device unclaimed successfully",
+          content: { "application/json": { schema: { type: "object", properties: { ok: { type: "boolean" } } } } },
+        },
+        "401": { description: "Unauthorized", content: { "application/json": { schema: errorSchema } } },
+        "403": { description: "Forbidden", content: { "application/json": { schema: errorSchema } } },
+        "404": { description: "Device not found", content: { "application/json": { schema: errorSchema } } },
+      },
+    },
+  },
 };
 

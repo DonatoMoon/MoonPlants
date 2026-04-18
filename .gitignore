@@ -36,12 +36,11 @@ __pycache__/
 /services/**/artifacts/features_cache.parquet
 /services/**/test_output.txt
 
-# Do not track ML research (only deployable APIs like moonplants_api)
+# # Do not track ML research (only deployable APIs like moonplants_api)
 /services/moonplants_ml/
-/services/moonplants_lstm/
 
 # C++ / ESP32
-#/hardware/
+/hardware/
 /hardware/esp32/.pio/
 /hardware/esp32/build/
 /hardware/esp32/CMakeCache.txt
@@ -58,6 +57,9 @@ __pycache__/
 /diploma/**/*.pdf
 /diploma/output/
 
+
+/docs 
+
 # Environment
 .env
 .env.local
@@ -73,7 +75,7 @@ __pycache__/
 /session-logs/
 startup.ps1
 
-# AI Agents and Vibecoding context
+# # AI Agents and Vibecoding context
 .agents/
 .claude/
 .gemini/
@@ -84,10 +86,11 @@ docs/
 **/*DOMAIN_CONTEXT.md
 **/*FIRMWARE_GUIDE.md
 
+/ProjectTree.txt
 
 # Temporarily hidden from Git
+/services/DEPLOYMENT_PLAN.md
 
-
-
-
+/skill-super-powers-eventual-whistle.md
+/у мене є проект.docx
 MoonPlants Dev.exe.lnk

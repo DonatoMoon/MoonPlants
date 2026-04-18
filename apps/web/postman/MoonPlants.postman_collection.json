@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "fb596d73-3eed-4aef-8b76-abfab49f7554",
+      "id": "ad5ba572-0cd0-47e5-86f1-3882189ca625",
       "name": "Devices",
       "description": {
         "content": "User-facing device management (list, claim, control light)",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "7d720dcf-f1d1-463a-a1b2-895351f7bc9b",
+          "id": "4c62ccf3-0a5c-48d2-abf4-79124b517cb2",
           "name": "List user devices",
           "request": {
             "name": "List user devices",
@@ -48,7 +48,7 @@
           },
           "response": [
             {
-              "id": "a4ed70fb-0644-42f3-8225-1b6749f7719c",
+              "id": "6a1ed324-9a0a-4d81-b854-b3490ec938cd",
               "name": "List of devices",
               "originalRequest": {
                 "url": {
@@ -93,7 +93,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "03eddfec-aa9a-4fee-8216-8ee0c3bd751c",
+              "id": "dac43bf1-e764-4c53-815d-a0ead3b8baf6",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -138,7 +138,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "1f1cf981-4639-4d1a-8708-cd07080cc6ec",
+              "id": "c9b5961b-6553-4fdb-b6ea-e0c231b39124",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -189,7 +189,7 @@
           }
         },
         {
-          "id": "912f657a-50b1-4ec0-b527-5f2b98857647",
+          "id": "d5a33b06-7d08-4ed1-b9e3-3e06663637ae",
           "name": "Get device details",
           "request": {
             "name": "Get device details",
@@ -237,7 +237,7 @@
           },
           "response": [
             {
-              "id": "b1759d5c-21e9-4237-8f64-10e26b36da75",
+              "id": "74264e1b-d0cb-4ea9-b7b4-ce52fa93f978",
               "name": "Device detail",
               "originalRequest": {
                 "url": {
@@ -291,7 +291,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "56be430c-51fd-4c0b-a75f-bab55ace6e9e",
+              "id": "674a565e-4a0c-4d0b-9ca6-a7ec0c4ae9d5",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -345,7 +345,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "d7875b78-31f1-4eb4-8a07-1494bbedad0f",
+              "id": "5b96ae04-f718-43ad-aa08-1fb86a75b6e5",
               "name": "Device not found",
               "originalRequest": {
                 "url": {
@@ -399,7 +399,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "9e398e1f-e56b-437c-82c9-b3d7b0207354",
+              "id": "e31c82bf-2655-4294-a685-1f368d57fe1f",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -459,7 +459,7 @@
           }
         },
         {
-          "id": "e97c4b93-ca70-4517-8cde-117f2bf889a9",
+          "id": "5ef1f27f-258f-411d-bc3d-baa6b24d504e",
           "name": "Claim a device",
           "request": {
             "name": "Claim a device",
@@ -512,7 +512,7 @@
           },
           "response": [
             {
-              "id": "b6f8feb9-56bd-4588-b077-2468cd24a7b8",
+              "id": "1394bb3e-e93b-4b3f-898f-397e313310bc",
               "name": "Device claimed successfully",
               "originalRequest": {
                 "url": {
@@ -561,12 +561,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"success\": false,\n  \"deviceId\": \"db72b95d-4d86-5187-dbf4-664a5657206f\"\n}",
+              "body": "{\n  \"success\": false,\n  \"deviceId\": \"99ef02b0-c862-8538-b5b1-8152c86b594c\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "6cf39612-c8fb-4988-8bf3-f086f87ae360",
+              "id": "4be63b1e-7f62-463c-a0cf-cb37b1794962",
               "name": "Invalid input",
               "originalRequest": {
                 "url": {
@@ -620,7 +620,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "879d57ac-9ef3-4ed0-9dfc-98e064527acf",
+              "id": "7d75b50d-e94d-4299-b127-77d8caef3ad1",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -674,7 +674,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c5dc9f69-ce16-4e13-8e63-5f4620378976",
+              "id": "f88413d2-9af7-41b7-b88c-f2349490f448",
               "name": "Device not found",
               "originalRequest": {
                 "url": {
@@ -728,7 +728,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c1316280-f3d1-42c6-bf14-e43ba37ed29e",
+              "id": "d6b9bbb2-cc13-46a9-9729-7134de4d395f",
               "name": "Device already claimed",
               "originalRequest": {
                 "url": {
@@ -782,7 +782,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bb07eb36-61b5-4f73-85f6-6e15b467f9d3",
+              "id": "76cfc647-81a6-49b1-8893-597ec568e54b",
               "name": "Too many failed attempts",
               "originalRequest": {
                 "url": {
@@ -836,7 +836,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "9ca7cb2e-9177-40ef-b3d3-b7289fbdcd63",
+              "id": "caa4063b-1b8a-4ef0-ae03-249edaf38b9b",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -896,7 +896,7 @@
           }
         },
         {
-          "id": "a208e141-0a4f-4b45-b202-57a71ff022c6",
+          "id": "46fb5a5d-707c-4d25-b6d3-d07c96480f95",
           "name": "Send light command",
           "request": {
             "name": "Send light command",
@@ -959,7 +959,7 @@
           },
           "response": [
             {
-              "id": "6d506a74-6cc7-491d-9b65-65a659f5a92d",
+              "id": "a4255822-1357-4f29-8cb5-f9c9ab1373ad",
               "name": "Duplicate command (deduplicated)",
               "originalRequest": {
                 "url": {
@@ -1023,7 +1023,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0f53840b-8c0a-4d59-9dbd-75b94ca21a06",
+              "id": "47d3e1d3-71e9-408b-adc4-14cd0a4405f9",
               "name": "Command queued",
               "originalRequest": {
                 "url": {
@@ -1082,12 +1082,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"commandId\": \"338b8b54-885b-83eb-5252-78adffbc112e\"\n}",
+              "body": "{\n  \"commandId\": \"938ea5ae-8be8-1406-cf80-38cc811818e7\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0a87d1e2-6a0d-4910-a31f-d1d1527114b9",
+              "id": "286ef333-95c1-4b65-a1f4-780608e5dbe9",
               "name": "Invalid input or device does not support light",
               "originalRequest": {
                 "url": {
@@ -1151,7 +1151,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "88f626be-0322-4a0e-9af0-1a440ddca7a0",
+              "id": "c4bc709d-a961-4e16-9c0a-03bd827c2206",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -1215,7 +1215,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "e1dcb50c-8ade-483d-b9d5-3724f4fd0805",
+              "id": "a5b85cee-f52f-48c5-8c8f-a521e2629cc8",
               "name": "Device not found",
               "originalRequest": {
                 "url": {
@@ -1279,7 +1279,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "6f00adc2-9bb4-4d36-b29e-c1b30634cbd5",
+              "id": "43c9b448-8883-4e63-901a-68aded00e6e9",
               "name": "Active light command already exists",
               "originalRequest": {
                 "url": {
@@ -1343,7 +1343,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "8ab1e007-f130-4e5d-8a30-292d119d5786",
+              "id": "f693a856-6aee-4724-a81c-4e7a2241be0e",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -1411,12 +1411,553 @@
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           }
+        },
+        {
+          "id": "ac86f644-26e3-4e19-af1e-474bd3e0d4c6",
+          "name": "Swap channels between two plants",
+          "request": {
+            "name": "Swap channels between two plants",
+            "description": {
+              "content": "Swaps the linked device channels for two plants belonging to this device.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "devices",
+                ":deviceId",
+                "actions",
+                "swap-channels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "deviceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plantId1\": \"<uuid>\",\n  \"plantId2\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "101d2703-0578-4604-aed7-a48769343159",
+              "name": "Channels swapped successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "swap-channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plantId1\": \"<uuid>\",\n  \"plantId2\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ad2f5df-bfdb-46ad-aefd-69db5507dd6a",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "swap-channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plantId1\": \"<uuid>\",\n  \"plantId2\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "afdfed1f-a903-4e95-a81a-ac998b1489b7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "swap-channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plantId1\": \"<uuid>\",\n  \"plantId2\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4dd0f2b1-6a63-4102-908b-e3362aa2525c",
+          "name": "Unclaim device",
+          "request": {
+            "name": "Unclaim device",
+            "description": {
+              "content": "Unlinks the device from the user's account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "devices",
+                ":deviceId",
+                "actions",
+                "unclaim"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "deviceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "15010c06-90e8-408b-a879-adef1acf4a8f",
+              "name": "Device unclaimed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "unclaim"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cf79644-2c32-42fd-8eab-e962277fa734",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "unclaim"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52394646-4ed2-4f7a-845f-c31eedf92a9b",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "unclaim"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da7f05b7-a6f3-4161-ad57-7b64b9999d6e",
+              "name": "Device not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "devices",
+                    ":deviceId",
+                    "actions",
+                    "unclaim"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         }
       ],
       "event": []
     },
     {
-      "id": "873199ad-4bb3-47ff-84a0-3c1cb6bb5d2f",
+      "id": "c37d4da1-3b5d-487d-8158-c79edd6f998a",
       "name": "Plants",
       "description": {
         "content": "User-facing plant management (CRUD, measurements, predictions, watering)",
@@ -1424,7 +1965,7 @@
       },
       "item": [
         {
-          "id": "a3231475-a350-440b-ba83-75f628aaeae1",
+          "id": "74cdbf78-b10f-4e4c-a144-1341d2876333",
           "name": "Create a plant",
           "request": {
             "name": "Create a plant",
@@ -1476,7 +2017,7 @@
           },
           "response": [
             {
-              "id": "2fd386c8-1bec-4960-b887-3e5040fe2ac5",
+              "id": "bc344144-3be7-4c33-a85a-b8b348deb752",
               "name": "Plant created",
               "originalRequest": {
                 "url": {
@@ -1524,12 +2065,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"plant\": {\n    \"id\": \"f8a7a81b-b61a-cb2f-edb3-1882623571e0\",\n    \"owner_user_id\": \"1a74dcb4-479d-ea9d-9c61-21206ffc4871\",\n    \"device_id\": \"02553630-1d08-62d0-d714-f8207a79ba0f\",\n    \"name\": \"Monstera Deliciosa\",\n    \"species_name\": \"string\",\n    \"species_cache_id\": \"22c38786-c9a5-9238-b558-6ca910eee381\",\n    \"soil_channel\": 9299,\n    \"image_url\": \"string\",\n    \"image_source\": \"perenual\",\n    \"auto_watering_enabled\": false,\n    \"auto_light_enabled\": false,\n    \"age_months\": 4917,\n    \"pot_height_cm\": 7850.36177965357,\n    \"pot_diameter_cm\": 5044.433995924404,\n    \"pot_volume_ml\": 1999,\n    \"last_watered_at\": \"1958-04-13T21:18:35.952Z\",\n    \"created_at\": \"1961-04-22T11:31:53.807Z\"\n  }\n}",
+              "body": "{\n  \"plant\": {\n    \"id\": \"447a6d09-9302-340f-a5c8-80da637cbd8c\",\n    \"owner_user_id\": \"1cb159ea-661c-6ed3-5d9e-67f952597556\",\n    \"device_id\": \"87e5c3e0-d163-f798-cd08-8abcf41debc6\",\n    \"name\": \"Monstera Deliciosa\",\n    \"species_name\": \"string\",\n    \"species_cache_id\": \"68ed9013-c9e0-9c2d-8eb2-6fa87bd36930\",\n    \"soil_channel\": 3610,\n    \"image_url\": \"string\",\n    \"image_source\": \"perenual\",\n    \"auto_watering_enabled\": false,\n    \"auto_light_enabled\": true,\n    \"age_months\": 9657,\n    \"pot_height_cm\": 3374.0333978132053,\n    \"pot_diameter_cm\": 8266.552607838714,\n    \"pot_volume_ml\": 277,\n    \"last_watered_at\": \"1994-05-04T01:54:32.219Z\",\n    \"created_at\": \"1950-10-30T01:43:08.102Z\"\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "ef5ee821-b3cd-4b2c-9ae9-c13039068a56",
+              "id": "facb6f71-24ec-4067-9102-732d6fd32809",
               "name": "Invalid input or channel out of range",
               "originalRequest": {
                 "url": {
@@ -1582,7 +2123,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "03163f9e-ff04-4163-9de9-a6f0634eec68",
+              "id": "878de38b-fac7-47b8-ab3d-22801e80ea50",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -1635,7 +2176,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "29d8fabf-3e8c-402d-9765-1dafb3231e33",
+              "id": "67fe111a-3c5b-4e5c-89ad-01c11566757c",
               "name": "Device not owned by user",
               "originalRequest": {
                 "url": {
@@ -1688,7 +2229,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "69ef0e02-784e-458b-9e60-2ac23fe37703",
+              "id": "74568241-aa79-4708-aa74-e5b2368ec991",
               "name": "Channel already in use",
               "originalRequest": {
                 "url": {
@@ -1741,7 +2282,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "24bda045-49e3-41d0-a0bf-332fa1548ec7",
+              "id": "5f259718-2e28-4998-adee-65b8dc98ce99",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -1800,7 +2341,7 @@
           }
         },
         {
-          "id": "dd410eec-97e5-446c-8782-e631b1482970",
+          "id": "779f5bf2-9df9-4d7b-a1cb-8b33365e6f4c",
           "name": "Get plant details",
           "request": {
             "name": "Get plant details",
@@ -1848,7 +2389,7 @@
           },
           "response": [
             {
-              "id": "28de3521-1e43-40e4-ac80-e8a29e4406c8",
+              "id": "6d02d65c-78c5-42e8-a76b-b4bf729a3353",
               "name": "Plant detail",
               "originalRequest": {
                 "url": {
@@ -1897,12 +2438,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"plant\": {\n    \"id\": \"7bd4ce2f-de26-8af7-e9d9-d6485ebc1f70\",\n    \"owner_user_id\": \"4e2c735e-3540-5fd3-c68a-59ac0b896b43\",\n    \"device_id\": \"8ea6f2e5-974c-9bb7-62bd-f35745c6ecc8\",\n    \"name\": \"Monstera Deliciosa\",\n    \"species_name\": \"string\",\n    \"species_cache_id\": \"865d7b4f-e596-84d8-3474-f07c4aef3da6\",\n    \"soil_channel\": 1889,\n    \"image_url\": \"string\",\n    \"image_source\": \"perenual\",\n    \"auto_watering_enabled\": false,\n    \"auto_light_enabled\": true,\n    \"age_months\": 4651,\n    \"pot_height_cm\": 9923.050266718028,\n    \"pot_diameter_cm\": 8882.96122681626,\n    \"pot_volume_ml\": 4348,\n    \"last_watered_at\": \"1997-12-22T11:53:01.975Z\",\n    \"created_at\": \"1955-06-26T16:31:16.503Z\"\n  },\n  \"lastMeasurement\": {\n    \"id\": \"39c9d906-ca6e-6b87-41e1-4c885b7ca63c\",\n    \"soil_moisture_pct\": 597.5207968150131,\n    \"soil_moisture_raw\": 3516,\n    \"air_temp_c\": 2361.7680727560532,\n    \"air_humidity_pct\": 9120.841873349213,\n    \"light_lux\": 6743.0424834922405,\n    \"battery_v\": 4794.435707142008,\n    \"measured_at\": \"2005-05-08T02:06:14.806Z\"\n  },\n  \"lastPrediction\": {\n    \"plant_id\": \"b9a2582c-b3b5-3d1e-7f43-046467d8d74e\",\n    \"predicted_at\": \"2023-01-22T10:36:48.601Z\",\n    \"next_watering_at\": \"2023-09-10T20:21:12.426Z\",\n    \"confidence\": 0.7819259867705084,\n    \"reason\": \"string\",\n    \"should_water_now\": true\n  }\n}",
+              "body": "{\n  \"plant\": {\n    \"id\": \"b16d3bcf-6881-5dd6-1621-bc3dd6dbe00e\",\n    \"owner_user_id\": \"20de3bfd-301b-0bf2-9e90-be5a3ebef247\",\n    \"device_id\": \"ad7a0f0b-db0a-228e-deb3-c7c11417f118\",\n    \"name\": \"Monstera Deliciosa\",\n    \"species_name\": \"string\",\n    \"species_cache_id\": \"1d769fb5-bb8f-54aa-aa13-3e528438ea8a\",\n    \"soil_channel\": 1946,\n    \"image_url\": \"string\",\n    \"image_source\": \"user\",\n    \"auto_watering_enabled\": false,\n    \"auto_light_enabled\": false,\n    \"age_months\": 8714,\n    \"pot_height_cm\": 8720.506311571235,\n    \"pot_diameter_cm\": 4035.162115638139,\n    \"pot_volume_ml\": 6030,\n    \"last_watered_at\": \"1960-06-09T10:54:52.110Z\",\n    \"created_at\": \"2012-06-19T15:10:17.128Z\"\n  },\n  \"lastMeasurement\": {\n    \"id\": \"0a0a7d40-1b9c-8500-2b5e-cf2d768ce7e8\",\n    \"soil_moisture_pct\": 2599.754083878658,\n    \"soil_moisture_raw\": 6953,\n    \"air_temp_c\": 5822.503103695463,\n    \"air_humidity_pct\": 3911.2564619424197,\n    \"light_lux\": 2019.282335012471,\n    \"battery_v\": 378.27838111551546,\n    \"measured_at\": \"1950-04-09T09:47:28.315Z\"\n  },\n  \"lastPrediction\": {\n    \"plant_id\": \"369bbda5-38fc-ce46-2646-29d1011aa82c\",\n    \"predicted_at\": \"1988-02-26T07:42:58.612Z\",\n    \"next_watering_at\": \"1985-06-02T14:26:45.254Z\",\n    \"confidence\": 0.409682843349251,\n    \"reason\": \"string\",\n    \"should_water_now\": false\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "3310698c-23cf-4aed-ad4b-258b7ae03a21",
+              "id": "7e7cc8d3-0a45-487a-a41e-1b18bfc1693d",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -1956,7 +2497,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2a4e29c7-d67c-49a6-a7ac-1f94e71e3d40",
+              "id": "9161a59c-adaa-4750-91c5-bca72ed0cf90",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -2010,7 +2551,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "15ba114c-4055-4f52-9f94-55559369e092",
+              "id": "c4b6a729-cafc-4f87-9c44-06657d218d0a",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -2070,7 +2611,7 @@
           }
         },
         {
-          "id": "7265cfc5-c75d-4d0a-8f0d-c247ad67dd62",
+          "id": "dc646263-0b10-4e0f-821c-dedfbadd0084",
           "name": "Delete a plant",
           "request": {
             "name": "Delete a plant",
@@ -2118,7 +2659,7 @@
           },
           "response": [
             {
-              "id": "c5847c0d-2692-4f7d-9d16-85178d63e0ae",
+              "id": "548d325e-7902-4b07-9080-3df1dcae0c90",
               "name": "Plant deleted",
               "originalRequest": {
                 "url": {
@@ -2167,12 +2708,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"success\": true\n}",
+              "body": "{\n  \"success\": false\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "01e6463e-58a5-4c83-b8a5-28eab9af2cf9",
+              "id": "fa9bd8d8-36cd-40eb-b9f0-ac818d4b8840",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -2226,7 +2767,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "9f910934-f947-40a6-be00-59f73fb4e5e1",
+              "id": "506a5564-e627-4521-8a78-820858b7e784",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -2280,7 +2821,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bcf72dc0-41f8-4e1c-915b-185a8abdd808",
+              "id": "cbf945d2-a85a-4006-9d78-fc5aadc14ae3",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -2340,7 +2881,7 @@
           }
         },
         {
-          "id": "7281b753-b41d-4535-ac81-58574480af55",
+          "id": "a4bcea08-5dee-45fd-9269-5baa25d16dbf",
           "name": "Get plant measurements",
           "request": {
             "name": "Get plant measurements",
@@ -2408,7 +2949,7 @@
           },
           "response": [
             {
-              "id": "fc7a99b3-f3b8-4885-8120-26c78207e3f2",
+              "id": "4ed83bb4-7fc4-4a07-ba57-145b8c1bbb15",
               "name": "Measurements list",
               "originalRequest": {
                 "url": {
@@ -2476,7 +3017,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0a9e2ec4-3f4f-4272-8faf-ccf99b3f9d66",
+              "id": "27b37125-bb3d-4313-8ca2-34bf6ed27cd2",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -2544,7 +3085,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b71264de-b423-435f-b56c-dded32918b6f",
+              "id": "c419a951-c7ef-43bf-a74d-d5143ba3ddd0",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -2612,7 +3153,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "319d2487-d680-4c71-8281-3501c987f6ef",
+              "id": "e8af87da-127d-44ec-9f8f-ab4b5aa5c3bb",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -2686,7 +3227,7 @@
           }
         },
         {
-          "id": "2eeaf103-9d73-4aca-9334-9906df5cd536",
+          "id": "9a51dffa-f1d4-4bf5-8366-be669c7cbccd",
           "name": "Get watering prediction",
           "request": {
             "name": "Get watering prediction",
@@ -2735,7 +3276,7 @@
           },
           "response": [
             {
-              "id": "2ec348a3-962f-4d4b-802d-913deb7cf38a",
+              "id": "ad0079ef-6535-404f-bae0-96fdf25f0670",
               "name": "Prediction result",
               "originalRequest": {
                 "url": {
@@ -2785,12 +3326,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"prediction\": {\n    \"plant_id\": \"b0fd85cc-45e9-c877-0487-f1acc7ad8cf4\",\n    \"predicted_at\": \"2017-01-27T12:42:43.770Z\",\n    \"next_watering_at\": \"2016-08-10T02:40:19.690Z\",\n    \"confidence\": 0.01832795402522558,\n    \"reason\": \"string\",\n    \"should_water_now\": false\n  }\n}",
+              "body": "{\n  \"prediction\": {\n    \"plant_id\": \"961ef3bf-f6d8-6100-1c80-9d7e656d99e2\",\n    \"predicted_at\": \"1982-08-11T01:52:41.926Z\",\n    \"next_watering_at\": \"1974-10-23T12:16:10.389Z\",\n    \"confidence\": 0.45673081074837596,\n    \"reason\": \"string\",\n    \"should_water_now\": true\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "641ccf47-8fc4-426e-8102-bdddb3feb6d8",
+              "id": "e78ce2e9-0171-44af-b8ec-ee59cb0193c4",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -2845,7 +3386,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "041f4923-bfb1-40b4-8380-1a82fb9e03ab",
+              "id": "c69dc40b-bd5b-484d-9e59-4f4272ced30d",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -2900,7 +3441,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "08521cef-2708-478b-81bc-c8d836ae046b",
+              "id": "a8db0859-bc59-4472-84d4-b7ba72de7779",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -2961,7 +3502,7 @@
           }
         },
         {
-          "id": "14cce637-e735-46f4-814b-ed97c42ac118",
+          "id": "fb574419-f8ba-4c35-8db5-417c201d9417",
           "name": "Record manual watering",
           "request": {
             "name": "Record manual watering",
@@ -3023,7 +3564,7 @@
           },
           "response": [
             {
-              "id": "cde33c8a-1d0d-48bd-b860-e64eef317ba5",
+              "id": "fc34277f-b7d2-4414-a145-7c1f3d747094",
               "name": "Watering event created",
               "originalRequest": {
                 "url": {
@@ -3081,12 +3622,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"event\": {\n    \"id\": \"22875a60-0103-d718-732a-69b2ad8a2bfd\",\n    \"plant_id\": \"2cdad217-41dc-a423-dd4d-aa6aca607797\",\n    \"source\": \"manual\",\n    \"water_ml\": 7480,\n    \"happened_at\": \"2024-12-02T05:27:48.496Z\",\n    \"note\": \"string\"\n  }\n}",
+              "body": "{\n  \"event\": {\n    \"id\": \"72f59c43-01ab-7040-019c-cdc9432bd98d\",\n    \"plant_id\": \"e5969bf5-7c8c-3b42-6a48-5c9ed39f7698\",\n    \"source\": \"manual\",\n    \"water_ml\": 9059,\n    \"happened_at\": \"1973-03-12T21:14:46.759Z\",\n    \"note\": \"string\"\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "a30d0ac5-ea5f-4878-9c31-0258a297fe72",
+              "id": "dfa7aaed-298f-4359-8b60-0115777c13eb",
               "name": "Invalid input",
               "originalRequest": {
                 "url": {
@@ -3149,7 +3690,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "7858a0c8-d0e9-414c-a711-df749cb6cff5",
+              "id": "55476572-28ad-4b5e-a3f0-e6d1f7fca7dc",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -3212,7 +3753,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c38d11b7-3ba7-4160-aeb1-bf8316508f81",
+              "id": "54c5a33d-05ff-4fa9-bb3f-bf0796a9dc50",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -3275,7 +3816,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c5ab1ed7-a60a-4a52-8051-1d8727f8a1e8",
+              "id": "203544f7-2f62-43e2-b312-13caae3ecf96",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -3344,7 +3885,7 @@
           }
         },
         {
-          "id": "fa2813ed-140c-4f69-b872-d8489fa19de4",
+          "id": "d49f14b6-a710-4f89-91cd-4b30b96fd070",
           "name": "Trigger automated watering",
           "request": {
             "name": "Trigger automated watering",
@@ -3407,7 +3948,7 @@
           },
           "response": [
             {
-              "id": "7bdd9959-8f8d-4f00-aeb5-828ad4b7f9fd",
+              "id": "f344e9fe-6307-42f0-8503-6db353bf409e",
               "name": "Watering skipped (not needed) or deduplicated",
               "originalRequest": {
                 "url": {
@@ -3471,7 +4012,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "883adbbc-437a-43dc-aff1-de4609e93ca5",
+              "id": "91c0840a-296d-495b-9c23-3cd2e8f3d50d",
               "name": "Water command queued",
               "originalRequest": {
                 "url": {
@@ -3530,12 +4071,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"commandId\": \"e56c5120-cd75-a5c6-50f1-50ac2916fd9e\",\n  \"commandCreated\": true,\n  \"check\": \"string\"\n}",
+              "body": "{\n  \"commandId\": \"d8354beb-f3c1-f952-5c57-3c3893b4ccf0\",\n  \"commandCreated\": false,\n  \"check\": \"string\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "d9c1e9ab-b2a2-422e-a692-af6786327386",
+              "id": "dd19cda1-c2b3-4a1d-9ff5-4ed55a20dbb9",
               "name": "Plant not linked to device channel",
               "originalRequest": {
                 "url": {
@@ -3599,7 +4140,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c6975259-3e35-4a7c-879d-919cd4fdc47e",
+              "id": "f6aec149-c2b4-4ddb-a9ab-07dd1b17e764",
               "name": "Unauthorized",
               "originalRequest": {
                 "url": {
@@ -3663,7 +4204,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "cd338ca9-f7eb-4e56-b520-2d8c44431d1e",
+              "id": "8cb7f726-7140-435b-a866-dc59f03a53f8",
               "name": "Plant not found",
               "originalRequest": {
                 "url": {
@@ -3727,7 +4268,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "676d4105-066f-4bcc-b280-f77ed839ea52",
+              "id": "784a0dd0-a2aa-48d5-8568-83a4187184f5",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -3795,12 +4336,605 @@
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           }
+        },
+        {
+          "id": "36c9fccc-8e44-4adc-919f-409bda3731a5",
+          "name": "Get disconnected plants",
+          "request": {
+            "name": "Get disconnected plants",
+            "description": {
+              "content": "Returns a list of user's plants that are not currently linked to any device channel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "disconnected"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f19f3c09-f4ca-43ff-8105-aef1d2e7dfbf",
+              "name": "List of disconnected plants",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    "disconnected"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"plants\": [\n    {\n      \"id\": \"4957b57d-cc52-38f7-2635-87eec9e2c417\",\n      \"name\": \"string\",\n      \"species_name\": \"string\"\n    },\n    {\n      \"id\": \"2e028e2e-8ba7-afa0-8954-03a25286d7f3\",\n      \"name\": \"string\",\n      \"species_name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1216d4a5-b054-4e68-8680-115ecdb75f03",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    "disconnected"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "821b80eb-754c-4735-a844-6c7e74761642",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    "disconnected"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2771593d-ce59-4a30-99ed-595f6eee174d",
+          "name": "Upload plant photo",
+          "request": {
+            "name": "Upload plant photo",
+            "description": {
+              "content": "Uploads a new photo for the plant.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                ":plantId",
+                "photo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "plantId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7c843859-ab57-4950-a837-2855c32a2ef6",
+              "name": "Photo uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    ":plantId",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "plantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"string\",\n  \"source\": \"user\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2bbf7f8-5518-4cb2-8d1a-a7ce7ed2d5e7",
+              "name": "Invalid input or file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    ":plantId",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "plantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6663c0f6-7eed-4465-94c3-d22fa85a1c28",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    ":plantId",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "plantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2382a51b-0247-409b-8513-cf3703d3994e",
+              "name": "Plant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    ":plantId",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "plantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a896cff2-5985-4a33-b76d-dd46fd62e029",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "plants",
+                    ":plantId",
+                    "photo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "plantId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         }
       ],
       "event": []
     },
     {
-      "id": "a81c68a5-63d9-40f5-a0ff-6adc21edd83d",
+      "id": "25961f92-da4e-4245-9514-5d609a644306",
       "name": "IoT Device",
       "description": {
         "content": "Device-facing endpoints for ESP32 firmware (HMAC auth required)",
@@ -3808,7 +4942,7 @@
       },
       "item": [
         {
-          "id": "060bbf78-08d4-4357-8fde-85b414831e50",
+          "id": "53c3cd04-421e-4bb9-9f40-549b91fc1457",
           "name": "Submit sensor measurements",
           "request": {
             "name": "Submit sensor measurements",
@@ -3899,7 +5033,7 @@
           },
           "response": [
             {
-              "id": "9121abf6-88bc-46c7-be6f-feac290a2349",
+              "id": "20d4b8df-a059-441e-af39-9544c3d04654",
               "name": "Measurements ingested",
               "originalRequest": {
                 "url": {
@@ -3978,12 +5112,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"ingested\": 1881,\n  \"ignoredChannels\": [\n    3329,\n    1977\n  ]\n}",
+              "body": "{\n  \"ingested\": 2582,\n  \"ignoredChannels\": [\n    5258,\n    8075\n  ]\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "e1fcc03c-30e9-4765-b4fb-0ce831f43cb7",
+              "id": "c47b43d7-0ed3-4f2f-bf86-3d2684da84ec",
               "name": "Invalid JSON or payload schema",
               "originalRequest": {
                 "url": {
@@ -4067,7 +5201,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "68ec2397-dfef-49d6-bdab-1a1058a32508",
+              "id": "e21e1f29-1ec5-4ac4-92c9-383584dd2fab",
               "name": "HMAC auth failed or missing headers",
               "originalRequest": {
                 "url": {
@@ -4151,7 +5285,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "4b49d980-8b0b-4f19-875d-e6793444e064",
+              "id": "218b474d-f159-4e7c-a6e8-c069f0957261",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -4241,7 +5375,7 @@
           }
         },
         {
-          "id": "b095dc21-9788-4125-ab34-f9b2bf036de7",
+          "id": "0397b50d-8d89-4bf1-9f68-48e4ef61fa19",
           "name": "Poll pending commands",
           "request": {
             "name": "Poll pending commands",
@@ -4326,7 +5460,7 @@
           },
           "response": [
             {
-              "id": "58b8bea7-e88f-4056-b83b-39225a31a8c9",
+              "id": "c1c48e82-10c3-4e6f-aa50-7c053e1fb18f",
               "name": "Pending commands list",
               "originalRequest": {
                 "url": {
@@ -4407,7 +5541,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "67349900-6e20-4633-8665-52877393baeb",
+              "id": "182e10db-f8cc-47f8-91d6-252988645c64",
               "name": "HMAC auth failed",
               "originalRequest": {
                 "url": {
@@ -4488,7 +5622,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c780223a-f98b-487c-9485-f8f05955f9af",
+              "id": "c5468cf9-4978-433f-945d-e6aea44150c6",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -4575,7 +5709,7 @@
           }
         },
         {
-          "id": "05793015-1f54-4ec6-873a-ee377792c9cc",
+          "id": "92cd73ff-9bf9-4d33-a3bd-6af79a18870a",
           "name": "Acknowledge command execution",
           "request": {
             "name": "Acknowledge command execution",
@@ -4666,7 +5800,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"status\": \"<string>\",\n  \"executedAt\": \"<integer>\",\n  \"result\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": 3365.697743710949\n  }\n}",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"executedAt\": \"<integer>\",\n  \"result\": {\n    \"key_0\": 8892\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4676,7 +5810,7 @@
           },
           "response": [
             {
-              "id": "b1c9bd69-c65f-4e9b-95a0-198c5cb7805e",
+              "id": "a73e45b6-8317-4c44-80fa-e5ba81df511f",
               "name": "Ack received",
               "originalRequest": {
                 "url": {
@@ -4770,7 +5904,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "d05b52b8-64fb-416e-b771-02669907c700",
+              "id": "a0a1f90c-e4cb-40a4-8ab5-00f41d418e27",
               "name": "Invalid payload",
               "originalRequest": {
                 "url": {
@@ -4864,7 +5998,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "189ece1f-f845-47c1-80bb-fd4aa1ea3099",
+              "id": "dd546dae-917d-463a-b02b-ce957f9eb5ab",
               "name": "HMAC auth failed",
               "originalRequest": {
                 "url": {
@@ -4958,7 +6092,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b9cf5c8a-a9d4-4f3d-abbb-52428f0b350c",
+              "id": "5fbd0f48-462d-48f5-96e7-00cd96bb39b3",
               "name": "Command belongs to different device",
               "originalRequest": {
                 "url": {
@@ -5052,7 +6186,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "c16ab44d-274d-46c7-b32e-7b6e618da90f",
+              "id": "2b5b3ec6-9f09-40c7-ad00-277c88c700a3",
               "name": "Command not found",
               "originalRequest": {
                 "url": {
@@ -5146,7 +6280,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "dbcc7035-908c-49a4-9b73-51dc218ba1d1",
+              "id": "94573fef-8548-4475-9cba-1dd8dff9d359",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -5246,7 +6380,7 @@
           }
         },
         {
-          "id": "4cc7216d-f0ff-4e24-8132-35cb7c5886b1",
+          "id": "7e5ef1ea-0780-4e38-9cf3-bf077591533a",
           "name": "Get device configuration",
           "request": {
             "name": "Get device configuration",
@@ -5324,7 +6458,7 @@
           },
           "response": [
             {
-              "id": "9c201530-f7ff-4fd8-874c-cba4d66fa50f",
+              "id": "9a74b0c9-d8d4-46b1-97e7-7df6192c8c03",
               "name": "Device configuration",
               "originalRequest": {
                 "url": {
@@ -5400,7 +6534,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "de6cf82a-8deb-4837-a0b2-c538d4e4e252",
+              "id": "6232749a-2288-4942-9bef-0d96ffb696ba",
               "name": "HMAC auth failed",
               "originalRequest": {
                 "url": {
@@ -5476,7 +6610,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0b3a0a6f-95e3-48e8-8361-346344efa19b",
+              "id": "7f4b45f1-1a54-4fc6-be8f-2c5703933474",
               "name": "Device not found",
               "originalRequest": {
                 "url": {
@@ -5552,7 +6686,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "85964823-fe4b-4dd9-a7ee-be3c03e441e3",
+              "id": "1935ad69-a8de-4f8a-8cf9-838953e3f0dc",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -5685,7 +6819,7 @@
       ]
     },
     {
-      "id": "d15c43b0-f152-481e-9c24-c99b13ebf75e",
+      "id": "de752d15-ca63-4a10-b174-a279ab64a1dd",
       "name": "Utility",
       "description": {
         "content": "Helper endpoints (species autocomplete, etc.)",
@@ -5693,7 +6827,7 @@
       },
       "item": [
         {
-          "id": "c833188c-c63d-4952-bdbd-8df128748ab0",
+          "id": "ae2f2260-673b-4f6e-8b1c-2dc246ec5c7e",
           "name": "Autocomplete plant species",
           "request": {
             "name": "Autocomplete plant species",
@@ -5730,7 +6864,7 @@
           },
           "response": [
             {
-              "id": "62c58065-f3da-448a-a4db-cb812a697dce",
+              "id": "e6b2fd38-0285-46c7-b92c-e1324a66ff11",
               "name": "Autocomplete results",
               "originalRequest": {
                 "url": {
@@ -5771,7 +6905,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "53e3fd56-153a-4a22-b0e4-99f98cb33c5c",
+              "id": "d54709dc-966c-4fdb-8275-270800da5cea",
               "name": "Server error",
               "originalRequest": {
                 "url": {
@@ -5816,6 +6950,190 @@
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           }
+        },
+        {
+          "id": "bf1f0b19-a0e5-42a0-abc1-0500b7c5b954",
+          "name": "Run batch predictions",
+          "request": {
+            "name": "Run batch predictions",
+            "description": {
+              "content": "Triggers the batch prediction and auto-watering sequence. Secured via CRON_SECRET.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "cron",
+                "predict"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7583176d-600a-42bd-88f4-5df89a838b80",
+              "name": "Batch predictions ran successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "cron",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"results\": {\n    \"key_0\": false,\n    \"key_1\": 6282.983219831491\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbe95d40-5c5b-47bf-a4cd-d8e6da36e392",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "cron",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e95c355e-c96f-4e91-87bd-066d29fa9f8f",
+              "name": "Server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "cron",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         }
       ],
       "event": []
@@ -5830,7 +7148,7 @@
     }
   ],
   "info": {
-    "_postman_id": "c9a18d32-1727-43a1-bc4c-301a002f950f",
+    "_postman_id": "e7b346fa-dd6f-4e3a-ba94-9c10e6e20a80",
     "name": "MoonPlants",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

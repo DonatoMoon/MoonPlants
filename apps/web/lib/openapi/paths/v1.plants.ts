@@ -377,5 +377,91 @@ export const v1PlantPaths: OpenAPIV3_1.PathsObject = {
       },
     },
   },
+
+  "/api/v1/plants/disconnected": {
+    get: {
+      tags: ["Plants"],
+      summary: "Get disconnected plants",
+      description: "Returns a list of user's plants that are not currently linked to any device channel.",
+      security: bearerSecurity,
+      responses: {
+        "200": {
+          description: "List of disconnected plants",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  plants: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        id: { type: "string", format: "uuid" },
+                        name: { type: "string" },
+                        species_name: { type: "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": { description: "Unauthorized", content: { "application/json": { schema: errorSchema } } },
+        "500": { description: "Server error", content: { "application/json": { schema: errorSchema } } },
+      },
+    },
+  },
+
+  "/api/v1/plants/{plantId}/photo": {
+    post: {
+      tags: ["Plants"],
+      summary: "Upload plant photo",
+      description: "Uploads a new photo for the plant.",
+      security: bearerSecurity,
+      parameters: [
+        {
+          name: "plantId",
+          in: "path",
+          required: true,
+          schema: { type: "string", format: "uuid" },
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "multipart/form-data": {
+            schema: {
+              type: "object",
+              properties: {
+                file: { type: "string", format: "binary" },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "Photo uploaded successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  url: { type: "string" },
+                  source: { type: "string", enum: ["user"] }
+                }
+              }
+            }
+          }
+        },
+        "400": { description: "Invalid input or file", content: { "application/json": { schema: errorSchema } } },
+        "401": { description: "Unauthorized", content: { "application/json": { schema: errorSchema } } },
+        "404": { description: "Plant not found", content: { "application/json": { schema: errorSchema } } },
+        "500": { description: "Server error", content: { "application/json": { schema: errorSchema } } },
+      },
+    },
+  },
 };
 
