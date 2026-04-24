@@ -1,5 +1,6 @@
 // lib/predictions/ml-api.ts
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import type { Json } from "@/lib/supabase/database.types";
 
 export interface MLPredictionResponse {
     plant_id: string;
@@ -76,7 +77,7 @@ export async function saveMLPrediction(plantId: string, mlData: MLPredictionResp
         details: {
             ...mlData,
             source: "railway_ml_api"
-        } as Record<string, unknown>,
+        } as unknown as Json,
     };
 
     const { data, error } = await supabase
