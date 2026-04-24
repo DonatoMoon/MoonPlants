@@ -73,11 +73,10 @@ export async function saveMLPrediction(plantId: string, mlData: MLPredictionResp
         recommended_water_ml: Math.round(mlData.recommended_ml),
         confidence: mlData.confidence === "high" ? 0.9 : mlData.confidence === "medium" ? 0.6 : 0.3,
         model: "ml_lstm_v1",
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         details: {
             ...mlData,
             source: "railway_ml_api"
-        } as any,
+        } as Record<string, unknown>,
     };
 
     const { data, error } = await supabase
