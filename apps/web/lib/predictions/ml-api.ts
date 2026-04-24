@@ -75,9 +75,8 @@ export async function saveMLPrediction(plantId: string, mlData: MLPredictionResp
         model: "ml_lstm_v1",
         details: {
             ...mlData,
-            rationale: mlData.rationale,
             source: "railway_ml_api"
-        } as any,
+        } as Record<string, unknown>,
     };
 
     const { data, error } = await supabase
