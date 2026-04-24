@@ -88,14 +88,14 @@ class SupabaseDataClient:
         df["plant_instance_id"] = plant_int_id
         df["species_id"] = self._uuid_to_int(plant_row.get("species_cache_id") or "default")
         df["device_id"] = df.get("device_id", pd.Series(dtype=str)).fillna("unknown")
-        for col in ["air_humidity_pct", "light_lux", "air_temperature_c"]:
+        for col in ["air_humidity_pct", "light_lux", "air_temperature_c", "soil_temperature_c"]:
             if col not in df.columns:
                 df[col] = 0.0
             else:
                 df[col] = df[col].astype(float).fillna(0.0)
         return df[["timestamp_utc", "device_id", "plant_instance_id", "species_id",
                    "soil_moisture", "soil_moisture_raw", "air_temperature_c",
-                   "air_humidity_pct", "light_lux"]].sort_values("timestamp_utc").reset_index(drop=True)
+                   "air_humidity_pct", "light_lux", "soil_temperature_c"]].sort_values("timestamp_utc").reset_index(drop=True)
 
     def _normalize_events(self, rows: list, plant_int_id: int) -> pd.DataFrame:
         if not rows:
