@@ -4,22 +4,19 @@
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "./database.types";
+import { env } from "@/lib/env";
 
 let adminClient: SupabaseClient<Database> | null = null;
 
 export function createSupabaseAdmin(): SupabaseClient<Database> {
     if (adminClient) return adminClient;
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!url || !serviceRoleKey) {
-        throw new Error(
-            "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars"
-        );
+    const serviceRoleKey = env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceRoleKey) {
+        throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY env var");
     }
 
-    adminClient = createClient<Database>(url, serviceRoleKey, {
+    adminClient = createClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, serviceRoleKey, {
         auth: {
             autoRefreshToken: false,
             persistSession: false,

@@ -28,14 +28,16 @@ module.exports = {
             },
             boxShadow: {
                 card: '0 4px 24px 0 rgba(110, 231, 183, 0.10)', // легка зелена тінь
+                glass: 'var(--glass-shadow)',
+            },
+            backdropBlur: {
+                glass: 'var(--glass-blur)',
             },
             borderRadius: {
                 'xl-card': '90px', // для дуже округлих карток
             },
             fontFamily: {
-                // Можеш підключити свої шрифти, якщо треба
-                // 'sans': ['Geist', 'sans-serif'],
-                // 'mono': ['Geist Mono', 'monospace'],
+                display: ['var(--font-fraunces)', 'serif'],
             },
         },
     },

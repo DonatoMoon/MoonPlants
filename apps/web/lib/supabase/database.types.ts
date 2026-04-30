@@ -314,7 +314,7 @@ export type Database = {
                 Row: {
                     id: string;
                     device_id: string;
-                    type: "PUMP_WATER" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
+                    type: "PUMP_WATER" | "PUMP_WATER_SEC" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
                     payload: Json;
                     status: "queued" | "sent" | "acked" | "failed" | "expired" | "canceled";
                     created_at: string;
@@ -328,7 +328,7 @@ export type Database = {
                 Insert: {
                     id?: string;
                     device_id: string;
-                    type: "PUMP_WATER" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
+                    type: "PUMP_WATER" | "PUMP_WATER_SEC" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
                     payload?: Json;
                     status?: "queued" | "sent" | "acked" | "failed" | "expired" | "canceled";
                     created_at?: string;
@@ -360,7 +360,7 @@ export type Database = {
         Functions: Record<string, never>;
         Enums: {
             device_status: "unclaimed" | "claimed" | "revoked";
-            command_type: "PUMP_WATER" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
+            command_type: "PUMP_WATER" | "PUMP_WATER_SEC" | "LIGHT_ON" | "LIGHT_OFF" | "SET_CONFIG";
             command_status: "queued" | "sent" | "acked" | "failed" | "expired" | "canceled";
             image_source: "user" | "perenual" | "none";
             watering_source: "manual" | "auto" | "command";

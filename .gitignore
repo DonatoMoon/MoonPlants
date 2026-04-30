@@ -35,19 +35,19 @@ __pycache__/
 /services/**/*.csv
 /services/**/artifacts/features_cache.parquet
 /services/**/test_output.txt
-
+/services/DEPLOYMENT_PLAN.md
 # # Do not track ML research (only deployable APIs like moonplants_api)
 /services/moonplants_ml/
 
 # C++ / ESP32
-/hardware/
+# /hardware/
 /hardware/esp32/.pio/
 /hardware/esp32/build/
 /hardware/esp32/CMakeCache.txt
 /hardware/esp32/CMakeFiles/
 /hardware/esp32/Makefile
 /hardware/esp32/cmake_install.cmake
-
+/hardware/esp8266
 # LaTeX / Diploma
 /diploma/
 /diploma/**/*.aux
@@ -58,7 +58,6 @@ __pycache__/
 /diploma/output/
 
 
-/docs 
 
 # Environment
 .env

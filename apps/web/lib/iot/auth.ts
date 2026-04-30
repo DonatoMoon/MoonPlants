@@ -123,9 +123,6 @@ export async function verifyIotDevice(
         .digest("base64url");
 
     if (signature !== expectedSig) {
-        // Detailed log for debugging (remove in production)
-        console.warn(`[Auth] Signature mismatch for device ${deviceId}`);
-        console.warn(`[Auth] Canonical string:\n${canonical.replace(/\n/g, "\\n")}`);
         return { error: "Invalid signature", status: 401 };
     }
 

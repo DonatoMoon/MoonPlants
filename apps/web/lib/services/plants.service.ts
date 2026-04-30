@@ -1,5 +1,6 @@
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { getOrCacheSpecies } from "@/lib/species/cache";
+import { plantPublicUrl } from "@/lib/supabase/storage";
 
 type AddPlantDTO = {
     userId: string;
@@ -94,7 +95,7 @@ export class PlantsService {
             
             if (storageErr) throw new Error(`Storage error: ${storageErr.message}`);
             
-            image_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/plants/${filename}`;
+            image_url = plantPublicUrl(filename);
             image_source = 'user';
         }
 
@@ -148,7 +149,7 @@ export class PlantsService {
 
         if (uploadErr) throw new Error(`Upload error: ${uploadErr.message}`);
 
-        const image_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/plants/${filename}`;
+        const image_url = plantPublicUrl(filename);
 
         // 3. Update DB
         const { error: updateErr } = await supabase

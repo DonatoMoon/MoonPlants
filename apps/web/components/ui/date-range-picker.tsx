@@ -34,10 +34,11 @@ export function DateRangePicker({
             <PopoverTrigger asChild>
                 <Button
                     id="date"
-                    variant={"outline"}
-                    className={"w-full justify-start text-left font-normal"}
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal bg-[var(--glass-bg)] border-[var(--glass-border)] hover:bg-[var(--glass-bg-strong)]"
+                    aria-label="Обрати діапазон дат"
                 >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                     {from ? (
                         to ? (
                             <>
@@ -47,7 +48,7 @@ export function DateRangePicker({
                             format(from, "dd.MM.yyyy")
                         )
                     ) : (
-                        <span>Pick a date range</span>
+                        <span>Оберіть діапазон дат</span>
                     )}
                 </Button>
             </PopoverTrigger>

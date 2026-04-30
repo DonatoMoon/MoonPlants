@@ -1,0 +1,83 @@
+export const uk = {
+  common: {
+    loading: 'Завантаження...',
+    error: 'Помилка',
+    save: 'Зберегти',
+    cancel: 'Скасувати',
+    delete: 'Видалити',
+    edit: 'Редагувати',
+    close: 'Закрити',
+    back: 'Назад',
+    next: 'Далі',
+    submit: 'Підтвердити',
+    confirm: 'Підтвердити',
+    yes: 'Так',
+    no: 'Ні',
+  },
+
+  nav: {
+    home: 'Головна',
+    profile: 'Мої рослини',
+    catalog: 'Каталог видів',
+    signIn: 'Увійти',
+    signUp: 'Реєстрація',
+    signOut: 'Вийти',
+    openMenu: 'Відкрити меню',
+    backToTop: 'Нагору',
+    toggleTheme: 'Перемкнути тему',
+  },
+
+  auth: {
+    signInTitle: 'Вхід до акаунту',
+    signUpTitle: 'Створення акаунту',
+    email: 'Email',
+    password: 'Пароль',
+    invalidCredentials: 'Невірний email або пароль',
+    validationFailed: 'Некоректні дані',
+    passwordTooShort: 'Пароль має містити мінімум 8 символів',
+    notAuthorized: 'Не авторизовано',
+  },
+
+  profile: {
+    title: 'Мої рослини',
+    emptyPlants: 'Додайте першу рослину, щоб почати отримувати живі вимірювання!',
+    emptyPlantsCta: 'Додати першу рослину',
+    addPlant: 'Додати рослину',
+    addDevice: 'Підключити пристрій',
+    devices: 'Пристрої',
+    plants: 'Рослини',
+    lastMeasurement: 'Останній вимір',
+    soilMoisture: 'Вологість ґрунту',
+    lastWatering: 'Останній полив',
+    viewDetails: 'Детальніше',
+    waterMl: 'мл',
+    lightSec: 'с',
+    waterAction: 'Полити',
+    lightAction: 'Світло',
+    waterAriaLabel: "Об'єм води в мл",
+    lightAriaLabel: 'Тривалість світла в секундах',
+    waterButtonLabel: 'Полити рослину',
+    lightButtonLabel: 'Увімкнути світло',
+    deviceDisconnected: 'Не підключено',
+    deviceChannel: 'Канал',
+  },
+
+  toasts: {
+    waterQueued: 'Команду на полив поставлено в чергу',
+    lightQueued: 'Команду на світло поставлено в чергу',
+    waterFailed: 'Помилка поливу',
+    lightFailed: 'Помилка увімкнення світла',
+    feedbackSent: 'Дякуємо за відгук!',
+  },
+
+  errors: {
+    generic: 'Сталася помилка. Спробуйте ще раз.',
+    unauthorized: 'Не авторизовано',
+    forbidden: 'Немає доступу',
+    notFound: 'Не знайдено',
+    validation: 'Некоректні дані',
+    rateLimited: 'Забагато запитів. Спробуйте пізніше.',
+  },
+} as const;
+
+export type Translations = typeof uk;

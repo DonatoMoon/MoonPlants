@@ -179,55 +179,10 @@ export async function predictNextWatering(
 export async function doubleCheckBeforeWatering(
     plantId: string
 ): Promise<{ shouldWater: boolean; reason: string }> {
-    const supabase = createSupabaseAdmin();
-
-    // 1. Check latest measurement
-    const { data: latestRaw } = await supabase
-        .from("measurements")
-        .select("*")
-        .eq("plant_id", plantId)
-        .order("measured_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-    const latest = latestRaw as MeasurementRow | null;
-
-    // 2. Check last watering event in last 12 hours
-    const twelveHoursAgo = new Date(
-        Date.now() - 12 * 60 * 60 * 1000
-    ).toISOString();
-
-    const { data: recentWateringRaw } = await supabase
-        .from("watering_events")
-        .select("*")
-        .eq("plant_id", plantId)
-        .gte("happened_at", twelveHoursAgo)
-        .order("happened_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-    const recentWatering = recentWateringRaw as WateringEventRow | null;
-
-    // 3. Decision logic
-    if (recentWatering) {
-        console.log(`Recent watering detected at ${recentWatering.happened_at} (${recentWatering.water_ml}ml).`);
-        // return {
-        //     shouldWater: false,
-        //     reason: `Recent watering detected at ${recentWatering.happened_at} (${recentWatering.water_ml}ml). Skipping.`,
-        // };
-    }
-
-    if (latest && Number(latest.soil_moisture_pct) > 60) {
-        console.log(`Soil moisture already at ${latest.soil_moisture_pct}% (above 60% threshold).`);
-        // return {
-        //     shouldWater: false,
-        //     reason: `Soil moisture already at ${latest.soil_moisture_pct}% (above 60% threshold). Skipping.`,
-        // };
-    }
-
+    // TEMPORARILY DISABLED FOR TESTING
     return {
         shouldWater: true,
-        reason: "All checks passed. Proceeding with watering.",
+        reason: "Checks disabled for testing. Proceeding with watering.",
     };
 }
 

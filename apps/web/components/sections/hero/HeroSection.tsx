@@ -1,10 +1,13 @@
 // components/sections/hero/HeroSection.tsx
 import Image from 'next/image';
 import heroImg from '@/public/hero.png';
-import AuthCta from "@/components/auth/AuthCta"
+import AuthCta from "@/components/auth/AuthCta";
+import { getTranslations } from 'next-intl/server';
 
 
-export default function HeroSection({ user }: { user: { id: string } | null }) {
+export default async function HeroSection({ user }: { user: { id: string } | null }) {
+    const t = await getTranslations('HeroSection');
+
     return (
         <section className="py-12 px-0">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0">
@@ -12,9 +15,7 @@ export default function HeroSection({ user }: { user: { id: string } | null }) {
                     <div className="flex-1 max-w-xl">
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">MoonPlants</h1>
                         <p className="text-lg mb-8">
-                            Welcome to MoonPlants, your ultimate companion for effortless plant care.
-                            Monitor soil moisture, temperature, and light levels in real-time, and let our AI-powered system
-                            guide you with tailored watering recommendations. Keep your plants thriving with ease!
+                            {t('subtitle')}
                         </p>
                         <AuthCta user={user} />
                     </div>

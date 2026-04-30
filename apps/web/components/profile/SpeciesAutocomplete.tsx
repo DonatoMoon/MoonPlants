@@ -69,6 +69,7 @@ export default function SpeciesAutocomplete({
                                     alt={opt.name}
                                     width={28}
                                     height={28}
+                                    sizes="28px"
                                     className="rounded object-cover"
                                 />
                             )}

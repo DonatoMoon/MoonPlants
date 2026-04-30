@@ -3,6 +3,7 @@
 
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/database.types";
+import { plantPublicUrl } from "@/lib/supabase/storage";
 
 const PERENUAL_BASE = "https://perenual.com/api/v2";
 
@@ -78,7 +79,7 @@ export async function getOrCacheSpecies(perenualId: number) {
                     });
 
                 if (!uploadErr) {
-                    defaultImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/plants/${storagePath}`;
+                    defaultImageUrl = plantPublicUrl(storagePath);
                 }
             }
         } catch {

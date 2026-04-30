@@ -14,8 +14,10 @@ export default function BackgroundImageContainer({ children, src }: BackgroundIm
         <div className="relative w-full h-full flex-1 overflow-x-clip ">
             <Image
                 src={src}
-                alt="Decorative background"
+                alt=""
+                aria-hidden
                 fill
+                sizes="100vw"
                 className="object-cover object-center opacity-70 select-none pointer-events-none z-0"
                 priority
                 draggable={false}

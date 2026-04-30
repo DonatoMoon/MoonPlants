@@ -10,7 +10,6 @@ Welcome to the MoonPlants project repository! This is a monorepo containing the 
 - **/apps/web** - The Next.js web application (Frontend and API routes). Make sure to read `apps/web/DOMAIN_CONTEXT.md`.
 - **/hardware/esp32** - Microcontroller firmware (C++). Make sure to read `hardware/esp32/DOMAIN_CONTEXT.md`.
 - **/services/moonplants_ml** - Standard Python machine learning services. Make sure to read `services/moonplants_ml/DOMAIN_CONTEXT.md`.
-- **/services/moonplants_lstm** - Explanatory AI/LSTM implementations. Make sure to read `services/moonplants_lstm/DOMAIN_CONTEXT.md`.
 - **/docs** - General project architecture, API documentation, and integration guides. Start with `docs/ARCHITECTURE.md`.
 - **/.agents** - Global AI instructions and specific agent tools.
 

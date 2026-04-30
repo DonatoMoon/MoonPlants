@@ -7,27 +7,27 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormMessage, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { signUp } from "@/app/actions/auth/signUp";
-
-const schema = z.object({
-    email: z.string().email("Enter a valid email"),
-    password: z.string()
-        .min(8, "Password must be at least 8 characters")
-        .regex(/^[A-Za-z0-9!@#$%^&*()_+=-]+$/, "Invalid characters in password"),
-});
-
-type FormValues = z.infer<typeof schema>;
+import { useTranslations } from 'next-intl';
 
 export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
+    const t = useTranslations('Auth');
     const [error, setError] = useState<string | null>(null);
+
+    const schema = useMemo(() => z.object({
+        email: z.string().email(t('emailError')),
+        password: z.string()
+            .min(8, t('passwordError'))
+            .regex(/^[A-Za-z0-9!@#$%^&*()_+=-]+$/, t('passwordInvalidChars')),
+    }), [t]);
+
+    type FormValues = z.infer<typeof schema>;
+
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         mode: "onTouched",
-        defaultValues: {
-            email: "",
-            password: "",
-        }
+        defaultValues: { email: "", password: "" },
     });
 
     const onSubmit = async (data: FormValues) => {
@@ -39,7 +39,7 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
             await signUp(fd);
             if (onSuccess) onSuccess();
         } catch (e: unknown) {
-            const msg = e instanceof Error ? e.message : "Registration failed";
+            const msg = e instanceof Error ? e.message : t('registrationFailed');
             setError(msg);
         }
     };
@@ -52,7 +52,7 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>{t('email')}</FormLabel>
                             <FormControl>
                                 <Input {...field} type="email" autoComplete="email" />
                             </FormControl>
@@ -65,7 +65,7 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>{t('password')}</FormLabel>
                             <FormControl>
                                 <Input {...field} type="password" autoComplete="new-password" />
                             </FormControl>
@@ -76,7 +76,7 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
                 {error && <div className="text-destructive text-sm mt-1">{error}</div>}
 
                 <Button variant="outline" type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting ? "Registering..." : "Create account"}
+                    {form.formState.isSubmitting ? t('registering') : t('register')}
                 </Button>
             </form>
         </Form>

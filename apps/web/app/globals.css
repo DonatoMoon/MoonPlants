@@ -4,12 +4,14 @@
 /* Кастомна тема через CSS змінні */
 @theme inline {
   /* Фонові кольори */
+  --color-main: var(--background);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   /* Шрифти */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 
   /* Сайдбар */
   --color-sidebar-ring: var(--sidebar-ring);
@@ -105,6 +107,65 @@
   --sidebar-accent-foreground: #1B2316;
   --sidebar-border: #496b34;
   --sidebar-ring: #496b34;
+
+  /* ── Dashboard tokens (used by /profile components) ───────────── */
+  --bg:            #1B2316;
+  --bg-elev-1:     #232C1E;
+  --bg-elev-2:     #2A3424;
+  --fg:            #FFFFFF;
+  --fg-muted:      #B6BFB1;
+  --fg-subtle:     #8F9888;
+  --accent-soft:   rgba(73, 107, 52, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.20);
+  --warning:       #E0B96C;
+  --success:       #6FBF7C;
+  --info:          #5DA4D9;
+
+  /* Glass */
+  --glass-bg:        rgba(255, 255, 255, 0.06);
+  --glass-bg-strong: rgba(255, 255, 255, 0.10);
+  --glass-border:    rgba(255, 255, 255, 0.14);
+  --glass-blur:      16px;
+  --glass-shadow:    0 8px 32px rgba(0, 0, 0, 0.25);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px  rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.20);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.32);
+
+  /* Type scale */
+  --text-xs:   clamp(0.72rem, 0.70rem + 0.10vw, 0.78rem);
+  --text-sm:   clamp(0.85rem, 0.82rem + 0.15vw, 0.92rem);
+  --text-base: clamp(1.00rem, 0.95rem + 0.20vw, 1.08rem);
+  --text-lg:   clamp(1.12rem, 1.05rem + 0.30vw, 1.25rem);
+  --text-xl:   clamp(1.38rem, 1.25rem + 0.50vw, 1.60rem);
+  --text-2xl:  clamp(1.75rem, 1.50rem + 0.80vw, 2.10rem);
+  --text-3xl:  clamp(2.25rem, 1.90rem + 1.20vw, 2.90rem);
+  --display:   clamp(2.75rem, 2.20rem + 2.50vw, 4.50rem);
+
+  /* Motion */
+  --ease-out:   cubic-bezier(0.20, 0.80, 0.20, 1);
+  --ease-inout: cubic-bezier(0.65, 0.00, 0.35, 1);
+  --dur-fast:   120ms;
+  --dur-base:   220ms;
+  --dur-slow:   420ms;
+
+  /* Z-index */
+  --z-base: 0; --z-sticky: 40; --z-overlay: 50;
+  --z-dialog: 60; --z-toast: 70;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 @layer base {

@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
     images: {
+        formats: ["image/avif", "image/webp"],
         remotePatterns: [
             {
                 protocol: "https",
@@ -14,9 +18,12 @@ const nextConfig: NextConfig = {
             {
                 protocol: "https",
                 hostname: "perenual.com",
-            }
+            },
         ],
+    },
+    experimental: {
+        optimizePackageImports: ["lucide-react", "date-fns", "recharts"],
     },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

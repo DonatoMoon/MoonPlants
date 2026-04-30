@@ -3,6 +3,12 @@
 
 import { z } from "zod";
 
+// === Helpers ===
+
+// Relaxed UUID regex to allow non-standard versions (like version 0 used for mock IDs)
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+export const uuidSchema = z.string().regex(uuidRegex, "Invalid UUID format");
+
 // === Measurements from device ===
 
 export const soilChannelSchema = z.object({
@@ -37,7 +43,7 @@ export type CommandAckPayload = z.infer<typeof commandAckPayloadSchema>;
 // === Device claim (user action) ===
 
 export const claimDeviceSchema = z.object({
-    deviceId: z.string().uuid(),
+    deviceId: uuidSchema,
     claimCode: z.string().min(16).max(64),
 });
 
@@ -46,7 +52,7 @@ export type ClaimDeviceInput = z.infer<typeof claimDeviceSchema>;
 // === Create plant ===
 
 export const createPlantSchema = z.object({
-    deviceId: z.string().uuid().optional(),
+    deviceId: uuidSchema.optional(),
     soilChannel: z.number().int().min(1).max(16).optional(),
     name: z.string().min(1).max(200),
     speciesName: z.string().min(1).max(300),
@@ -80,8 +86,8 @@ export type WaterNowInput = z.infer<typeof waterNowSchema>;
 // === Swap channels ===
 
 export const swapChannelsSchema = z.object({
-    plantId1: z.string().uuid(),
-    plantId2: z.string().uuid(),
+    plantId1: uuidSchema,
+    plantId2: uuidSchema,
 });
 
 export type SwapChannelsInput = z.infer<typeof swapChannelsSchema>;

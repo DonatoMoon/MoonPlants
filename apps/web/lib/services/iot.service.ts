@@ -290,6 +290,69 @@ export class IoTService {
         return true;
     }
 
+    static async setLight(
+        userId: string,
+        deviceId: string,
+        mode: 'on' | 'on_for' | 'off',
+        durationSec?: number,
+    ): Promise<{ commandId: string | undefined; deduplicated?: boolean }> {
+        const supabase = createSupabaseAdmin();
+
+        const { data: deviceRaw } = await supabase
+            .from('devices')
+            .select('id, owner_user_id, supports_light')
+            .eq('id', deviceId)
+            .single();
+
+        const device = deviceRaw as { id: string; owner_user_id: string | null; supports_light: boolean } | null;
+
+        if (!device || device.owner_user_id !== userId) {
+            throw new Error('Device not found or unauthorized');
+        }
+        if (!device.supports_light) {
+            throw new Error('Device does not support light control');
+        }
+
+        const { data: activeCmdRaw } = await supabase
+            .from('device_commands')
+            .select('id')
+            .eq('device_id', deviceId)
+            .in('type', ['LIGHT_ON', 'LIGHT_OFF'])
+            .in('status', ['queued', 'sent'])
+            .maybeSingle();
+
+        if (activeCmdRaw) {
+            return { commandId: (activeCmdRaw as { id: string }).id, deduplicated: true };
+        }
+
+        const cmdType = mode === 'off' ? 'LIGHT_OFF' : 'LIGHT_ON';
+        const payload: Record<string, number> = {};
+        if (mode === 'on_for' && durationSec) payload.duration_sec = durationSec;
+
+        const idempotencyKey = `light:${deviceId}:${mode}:${Math.floor(Date.now() / 60000)}`;
+
+        const { data: commandRaw, error } = await supabase
+            .from('device_commands')
+            .insert({
+                device_id: deviceId,
+                type: cmdType,
+                payload,
+                status: 'queued',
+                send_after: new Date().toISOString(),
+                expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+                idempotency_key: idempotencyKey,
+            } as CommandInsert)
+            .select('id')
+            .single();
+
+        if (error) {
+            if (error.code === '23505') return { commandId: undefined, deduplicated: true };
+            throw new Error(`Failed to create light command: ${error.message}`);
+        }
+
+        return { commandId: (commandRaw as { id: string } | null)?.id };
+    }
+
     static async waterPlant(userId: string, plantId: string, waterMl: number): Promise<WaterResult> {
         const supabase = createSupabaseAdmin();
 
@@ -321,8 +384,8 @@ export class IoTService {
             };
         }
 
-        // Idempotency key: manual:<plantId>:<timestamp_rounded_to_5min>
-        const roundedTs = Math.floor(Date.now() / (5 * 60 * 1000));
+        // Idempotency key: manual:<plantId>:<timestamp_rounded_to_5sec>
+        const roundedTs = Math.floor(Date.now() / (5 * 1000));
         const idempotencyKey = `manual:${plantId}:${roundedTs}`;
 
         // Check for existing command with same idempotency key
@@ -374,6 +437,77 @@ export class IoTService {
             success: true,
             commandId: command?.id,
             check: check.reason
+        };
+    }
+
+    static async waterPlantSec(userId: string, plantId: string, durationSec: number): Promise<WaterResult> {
+        const supabase = createSupabaseAdmin();
+
+        const { data: plantRaw } = await supabase
+            .from("plants")
+            .select("*")
+            .eq("id", plantId)
+            .eq("owner_user_id", userId)
+            .single();
+
+        const plant = plantRaw as PlantRow | null;
+
+        if (!plant) {
+            throw new Error("Plant not found or unauthorized");
+        }
+
+        if (!plant.device_id || !plant.soil_channel) {
+            throw new Error("Plant not linked to a device channel");
+        }
+
+        const roundedTs = Math.floor(Date.now() / (5 * 1000));
+        const idempotencyKey = `manual_sec:${plantId}:${roundedTs}`;
+
+        const { data: existingCmdRaw } = await supabase
+            .from("device_commands")
+            .select("*")
+            .eq("idempotency_key", idempotencyKey)
+            .maybeSingle();
+
+        const existingCmd = existingCmdRaw as CommandRow | null;
+
+        if (existingCmd) {
+            return {
+                success: true,
+                commandId: existingCmd.id,
+                status: existingCmd.status,
+                deduplicated: true
+            };
+        }
+
+        const insertData: CommandInsert = {
+            device_id: plant.device_id,
+            type: "PUMP_WATER_SEC",
+            payload: {
+                channel: plant.soil_channel,
+                duration_sec: durationSec,
+            },
+            status: "queued",
+            send_after: new Date().toISOString(),
+            expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+            idempotency_key: idempotencyKey,
+        };
+
+        const { data: commandRaw, error } = await supabase
+            .from("device_commands")
+            .insert(insertData)
+            .select()
+            .single();
+
+        const command = commandRaw as CommandRow | null;
+
+        if (error) {
+            throw new Error(`Failed to create command: ${error.message}`);
+        }
+
+        return {
+            success: true,
+            commandId: command?.id,
         };
     }
 }

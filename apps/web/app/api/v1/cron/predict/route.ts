@@ -3,31 +3,33 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { PredictionService } from "@/lib/services/prediction.service";
+import { env } from "@/lib/env";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
     try {
-        // Simple CRON_SECRET check to prevent manual calls (should be set in env)
+        const cronSecret = env.CRON_SECRET;
+        if (!cronSecret) {
+            return NextResponse.json({ error: "Cron not configured" }, { status: 503 });
+        }
+
         const authHeader = req.headers.get('authorization');
-        const cronSecret = process.env.CRON_SECRET || 'test_cron_secret';
-        
         if (authHeader !== `Bearer ${cronSecret}`) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        console.log("[CRON] Running batch predictions...");
         const results = await PredictionService.runBatchPredictions();
-        
+
         return NextResponse.json({
             status: "success",
             results
         });
     } catch (err: unknown) {
         console.error("[CRON ERROR]", err);
-        return NextResponse.json({ 
-            status: "error", 
-            message: err instanceof Error ? err.message : String(err) 
+        return NextResponse.json({
+            status: "error",
+            message: err instanceof Error ? err.message : String(err)
         }, { status: 500 });
     }
 }

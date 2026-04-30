@@ -16,11 +16,9 @@ import {
     CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-
-
+import { useTranslations } from 'next-intl';
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
-
 
 interface AuthDialogProps {
     open: boolean;
@@ -30,30 +28,25 @@ interface AuthDialogProps {
 }
 
 export default function AuthDialog({ open, mode, onModeChange, onClose }: AuthDialogProps) {
+    const t = useTranslations('Auth');
     if (!mode) return null;
 
     const isSignIn = mode === 'signin';
 
-
     return (
         <Dialog open={open} onOpenChange={v => !v && onClose()}>
             <DialogContent className="p-0 border-none bg-transparent" showCloseButton={false}>
-                <DialogTitle className="flex justify-center">{isSignIn ? 'Sign in' : 'Sign up'}</DialogTitle>
+                <DialogTitle className="flex justify-center">
+                    {isSignIn ? t('signInTitle') : t('signUpTitle')}
+                </DialogTitle>
 
                 <Card className="w-auto rounded-xl-card shadow-card">
-
-
                     <CardHeader>
-                        <CardTitle>{isSignIn ? 'Login to your account' : 'Create an account'}</CardTitle>
+                        <CardTitle>{isSignIn ? t('signInTitle') : t('signUpTitle')}</CardTitle>
                         <CardDescription>
-                            {isSignIn
-                                ? 'Enter your credentials to continue'
-                                : 'Fill in the fields below to get started'}
+                            {isSignIn ? t('signInDescription') : t('signUpDescription')}
                         </CardDescription>
-
                     </CardHeader>
-
-
 
                     <CardContent>
                         {isSignIn
@@ -62,17 +55,11 @@ export default function AuthDialog({ open, mode, onModeChange, onClose }: AuthDi
                         }
                     </CardContent>
 
-
-
                     <CardFooter className="flex-col gap-3">
-                        {/*<Button variant="outline" type="submit" className="w-full" size="lg">*/}
-                        {/*    {isSignIn ? 'Login' : 'Create account'}*/}
-                        {/*</Button>*/}
                         {isSignIn && (
                             <Button variant="outline" className="w-full flex items-center gap-2" size="lg">
-                                {/* google-іконку можеш імпортувати як svg або з lucide-react */}
-                                <svg className="w-5 h-5" /* ...google svg... */ />
-                                Login with Google
+                                <svg className="w-5 h-5" />
+                                {t('loginWithGoogle')}
                             </Button>
                         )}
                         <CardAction className="w-full flex justify-center mt-2">
@@ -82,14 +69,10 @@ export default function AuthDialog({ open, mode, onModeChange, onClose }: AuthDi
                                 className="text-accent hover:underline text-sm"
                                 onClick={() => onModeChange(isSignIn ? 'signup' : 'signin')}
                             >
-                                {isSignIn ? 'Need an account? Sign Up' : 'Already have one? Sign In'}
+                                {isSignIn ? t('switchToSignUp') : t('switchToSignIn')}
                             </Button>
                         </CardAction>
                     </CardFooter>
-
-
-
-
                 </Card>
             </DialogContent>
         </Dialog>

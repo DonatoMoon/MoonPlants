@@ -144,7 +144,7 @@ export const iotV1Paths: OpenAPIV3_1.PathsObject = {
                       type: "object",
                       properties: {
                         id: { type: "string", format: "uuid" },
-                        type: { type: "string", enum: ["PUMP_WATER", "LIGHT_ON", "LIGHT_OFF"] },
+                        type: { type: "string", enum: ["PUMP_WATER", "PUMP_WATER_SEC", "LIGHT_ON", "LIGHT_OFF"] },
                         payload: { type: "object", additionalProperties: true },
                       },
                     },

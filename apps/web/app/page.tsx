@@ -7,7 +7,7 @@ import FeedbackSection from "@/components/sections/feedback/FeedbackSection";
 import BackgroundImageContainer from '@/components/layout/BackgroundImageContainer'
 import Container from '@/components/layout/Container'
 
-import backImg from "@/public/backImg.png";
+import backImg from "@/public/homeback.png";
 
 
 export default async function Home() {

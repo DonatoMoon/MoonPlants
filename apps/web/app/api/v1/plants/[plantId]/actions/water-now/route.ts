@@ -5,6 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/getUser";
 import { waterNowSchema } from "@/lib/iot/schemas";
 import { IoTService } from "@/lib/services/iot.service";
+import { errorResponse, AppError } from "@/lib/errors";
+import { rateLimit, rateLimitHeaders } from "@/lib/rate-limit";
+
+const RATE_LIMIT = 10;
+const WINDOW_MS = 60_000;
 
 export async function POST(
     req: NextRequest,
@@ -14,6 +19,14 @@ export async function POST(
         const user = await getCurrentUser();
         if (!user) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const rl = rateLimit(`water:${user.id}`, RATE_LIMIT, WINDOW_MS);
+        if (!rl.ok) {
+            return NextResponse.json(
+                { error: "Too many requests", code: "rate_limited" },
+                { status: 429, headers: rateLimitHeaders(rl, RATE_LIMIT) }
+            );
         }
 
         const { plantId } = await params;
@@ -26,56 +39,36 @@ export async function POST(
             );
         }
 
-        try {
-            const result = await IoTService.waterPlant(user.id, plantId, parsed.data.waterMl);
+        const result = await IoTService.waterPlant(user.id, plantId, parsed.data.waterMl);
 
-            if (result.warning) {
-                return NextResponse.json(
-                    { warning: result.warning, commandCreated: false },
-                    { status: 200 }
-                );
-            }
-
-            if (result.deduplicated) {
-                 return NextResponse.json(
-                    {
-                        commandId: result.commandId,
-                        status: result.status,
-                        deduplicated: true
-                    },
-                    { status: 200 }
-                );
-            }
-
+        if (result.warning) {
             return NextResponse.json(
-                {
-                    commandId: result.commandId,
-                    commandCreated: true,
-                    check: result.check
-                },
-                { status: 201 }
+                { warning: result.warning, commandCreated: false },
+                { status: 200 }
             );
-
-        } catch (serviceErr: unknown) {
-            const msg = serviceErr instanceof Error ? serviceErr.message : "Service error";
-
-            if (msg.includes("not found")) {
-                return NextResponse.json({ error: "Plant not found" }, { status: 404 });
-            }
-            if (msg.includes("not linked")) {
-                return NextResponse.json({ error: "Plant not linked to a device channel" }, { status: 400 });
-            }
-            throw serviceErr; // rethrow to catch block below
         }
 
-    } catch (err) {
-        console.error("[POST /api/v1/plants/:id/actions/water-now]", err);
+        if (result.deduplicated) {
+            return NextResponse.json(
+                { commandId: result.commandId, status: result.status, deduplicated: true },
+                { status: 200 }
+            );
+        }
+
         return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 }
+            { commandId: result.commandId, commandCreated: true, check: result.check },
+            { status: 201 }
         );
+    } catch (err) {
+        if (err instanceof Error) {
+            const msg = err.message;
+            if (msg.includes("not found") || msg.includes("unauthorized")) {
+                return errorResponse(new AppError('not_found', 'Plant not found', 404));
+            }
+            if (msg.includes("not linked")) {
+                return errorResponse(new AppError('validation', 'Plant not linked to a device channel', 400));
+            }
+        }
+        return errorResponse(err);
     }
 }
-
-
-

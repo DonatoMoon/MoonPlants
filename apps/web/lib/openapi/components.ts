@@ -82,13 +82,13 @@ export const schemas: Record<string, OpenAPIV3_1.SchemaObject> = {
       id: { type: "string", format: "uuid" },
       type: {
         type: "string",
-        enum: ["PUMP_WATER", "LIGHT_ON", "LIGHT_OFF"],
+        enum: ["PUMP_WATER", "PUMP_WATER_SEC", "LIGHT_ON", "LIGHT_OFF"],
         example: "PUMP_WATER",
       },
       payload: { type: "object", additionalProperties: true },
       status: {
         type: "string",
-        enum: ["queued", "sent", "acked", "failed", "expired"],
+        enum: ["queued", "sent", "acked", "failed", "expired", "canceled"],
         example: "queued",
       },
       created_at: { type: "string", format: "date-time" },
