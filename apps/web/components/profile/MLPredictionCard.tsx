@@ -37,7 +37,7 @@ export default function MLPredictionCard({ plantId, initialPrediction }: MLPredi
         try {
             const result = await getMLPrediction(plantId);
             if (result.success) {
-                setPrediction(result.data);
+                setPrediction((result.data as Prediction) ?? null);
             } else {
                 setError(result.error || t('error'));
             }
