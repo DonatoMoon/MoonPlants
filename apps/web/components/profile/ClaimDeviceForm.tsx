@@ -96,7 +96,7 @@ export default function ClaimDeviceForm({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scannerOpen]);
 
-    useEffect(() => () => { haltScanner(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => () => { haltScanner(); }, []);
 
     const onSubmit = async (data: FormValues) => {
         startTransition(async () => {

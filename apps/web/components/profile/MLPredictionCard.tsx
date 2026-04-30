@@ -9,9 +9,20 @@ import { Button } from '@/components/ui/button';
 import { getMLPrediction } from '@/app/actions/predictions/getMLPrediction';
 import { cn } from '@/lib/utils';
 
+interface PredictionDetails {
+    time_to_water_hours?: number;
+    confidence?: 'high' | 'medium' | 'low';
+}
+
+interface Prediction {
+    recommended_water_ml: number;
+    reason?: string;
+    details?: PredictionDetails;
+}
+
 interface MLPredictionCardProps {
     plantId: string;
-    initialPrediction: any | null;
+    initialPrediction: Prediction | null;
 }
 
 export default function MLPredictionCard({ plantId, initialPrediction }: MLPredictionCardProps) {
@@ -30,7 +41,7 @@ export default function MLPredictionCard({ plantId, initialPrediction }: MLPredi
             } else {
                 setError(result.error || t('error'));
             }
-        } catch (err) {
+        } catch {
             setError(t('error'));
         } finally {
             setLoading(false);
@@ -45,7 +56,7 @@ export default function MLPredictionCard({ plantId, initialPrediction }: MLPredi
         return t('days', { days, hours: remainingHours });
     };
 
-    const details = prediction?.details as any;
+    const details = prediction?.details;
 
     return (
         <GlassCard className="p-6 mb-8 overflow-hidden relative">
@@ -154,7 +165,7 @@ export default function MLPredictionCard({ plantId, initialPrediction }: MLPredi
                                 {t('rationale')}
                             </span>
                             <p className="text-sm leading-relaxed text-[var(--fg)] italic">
-                                "{prediction.reason}"
+                                &ldquo;{prediction.reason}&rdquo;
                             </p>
                         </div>
                     )}
