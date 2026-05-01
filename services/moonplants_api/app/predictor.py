@@ -6,6 +6,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional
 import numpy as np
+import numpy.random._pickle as _np_rng_pickle
 import pandas as pd
 
 from app.config import DEFAULT_CONFIG
@@ -26,6 +27,15 @@ _MODULE_REMAP = {
     "src.models.xgboost_model":  "models.xgboost_model",
 }
 
+_orig_bit_generator_ctor = _np_rng_pickle.__bit_generator_ctor
+
+
+def _compat_bit_generator_ctor(bit_generator_name="MT19937"):
+    # Older numpy pickled the class object; newer expects a string name.
+    if isinstance(bit_generator_name, type):
+        bit_generator_name = bit_generator_name.__name__
+    return _orig_bit_generator_ctor(bit_generator_name)
+
 
 class _Stub:
     """Placeholder for optuna objects stored in pkl but unused at inference."""
@@ -34,15 +44,17 @@ class _Stub:
 
 
 class _ResearchUnpickler(pickle.Unpickler):
-    """Remaps research-env module paths → API-service paths and handles
-    WindowsPath → PurePosixPath for cross-platform compatibility.
-    Stubs out optuna (tuning artifact not needed for inference)."""
+    """Remaps research-env module paths → API-service paths.
+    Stubs optuna (tuning artifact) and patches numpy BitGenerator ctor
+    to handle class-vs-string mismatch across numpy versions."""
 
     def find_class(self, module, name):
         if module == "pathlib" and name == "WindowsPath":
             return pathlib.PurePosixPath
         if module.startswith("optuna"):
             return _Stub
+        if module == "numpy.random._pickle" and name == "__bit_generator_ctor":
+            return _compat_bit_generator_ctor
         module = _MODULE_REMAP.get(module, module)
         return super().find_class(module, name)
 
