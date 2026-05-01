@@ -27,13 +27,22 @@ _MODULE_REMAP = {
 }
 
 
+class _Stub:
+    """Placeholder for optuna objects stored in pkl but unused at inference."""
+    def __init__(self, *a, **kw): pass
+    def __setstate__(self, state): pass
+
+
 class _ResearchUnpickler(pickle.Unpickler):
     """Remaps research-env module paths → API-service paths and handles
-    WindowsPath → PurePosixPath for cross-platform compatibility."""
+    WindowsPath → PurePosixPath for cross-platform compatibility.
+    Stubs out optuna (tuning artifact not needed for inference)."""
 
     def find_class(self, module, name):
         if module == "pathlib" and name == "WindowsPath":
             return pathlib.PurePosixPath
+        if module.startswith("optuna"):
+            return _Stub
         module = _MODULE_REMAP.get(module, module)
         return super().find_class(module, name)
 
