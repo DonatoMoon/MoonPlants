@@ -6,7 +6,6 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional
 import numpy as np
-import numpy.random._pickle as _np_rng_pickle
 import pandas as pd
 
 from app.config import DEFAULT_CONFIG
@@ -27,34 +26,40 @@ _MODULE_REMAP = {
     "src.models.xgboost_model":  "models.xgboost_model",
 }
 
-_orig_bit_generator_ctor = _np_rng_pickle.__bit_generator_ctor
-
-
-def _compat_bit_generator_ctor(bit_generator_name="MT19937"):
-    # Older numpy pickled the class object; newer expects a string name.
-    if isinstance(bit_generator_name, type):
-        bit_generator_name = bit_generator_name.__name__
-    return _orig_bit_generator_ctor(bit_generator_name)
-
-
 class _Stub:
-    """Placeholder for optuna objects stored in pkl but unused at inference."""
+    """Absorbs any object whose state we don't need at inference time."""
     def __init__(self, *a, **kw): pass
     def __setstate__(self, state): pass
 
 
+def _stub_ctor(*a, **kw):
+    """Drop-in for numpy RNG ctors (__bit_generator_ctor, __generator_ctor,
+    __randomstate_ctor). Returns a _Stub that absorbs __setstate__ silently."""
+    return _Stub()
+
+
+# numpy.random._pickle exports these names depending on the version
+_NP_RNG_CTORS = {
+    "__bit_generator_ctor",
+    "__generator_ctor",
+    "__randomstate_ctor",
+}
+
+
 class _ResearchUnpickler(pickle.Unpickler):
     """Remaps research-env module paths → API-service paths.
-    Stubs optuna (tuning artifact) and patches numpy BitGenerator ctor
-    to handle class-vs-string mismatch across numpy versions."""
+    Stubs optuna objects and numpy RNG state (tuning artifacts, not
+    needed for inference) to survive cross-version pickle incompatibility."""
 
     def find_class(self, module, name):
         if module == "pathlib" and name == "WindowsPath":
             return pathlib.PurePosixPath
         if module.startswith("optuna"):
             return _Stub
-        if module == "numpy.random._pickle" and name == "__bit_generator_ctor":
-            return _compat_bit_generator_ctor
+        # Intercept all numpy random restore functions — their pickled state
+        # may be in a format incompatible with the deployed numpy version.
+        if module == "numpy.random._pickle" and name in _NP_RNG_CTORS:
+            return _stub_ctor
         module = _MODULE_REMAP.get(module, module)
         return super().find_class(module, name)
 
