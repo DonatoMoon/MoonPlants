@@ -100,7 +100,7 @@
   },
   "MLPredictions": {
     "title": "AI Care Forecast",
-    "description": "LSTM neural network analysis of moisture trends and environmental stress.",
+    "description": "Neural network analysis of moisture trends and environmental stress.",
     "timeToWater": "Next watering in",
     "recommendedAmount": "Recommended volume",
     "confidence": "AI Confidence",
