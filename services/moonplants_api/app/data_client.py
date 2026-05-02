@@ -4,8 +4,6 @@ import numpy as np
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 
-WATERING_MAP = {"Minimum": 1, "Average": 2, "Frequent": 3}
-
 
 class SupabaseDataClient:
     def __init__(self, url: str, key: str):
@@ -126,21 +124,16 @@ class SupabaseDataClient:
         from app.config import DEFAULT_CONFIG
         d = DEFAULT_CONFIG.plant_defaults
         watering_text = (species_row or {}).get("watering", "Average") or "Average"
-        watering_num = WATERING_MAP.get(watering_text, 2)
 
-        if watering_text == "Minimum":
-            days_min, days_max = 10.0, 20.0
-        elif watering_text == "Frequent":
-            days_min, days_max = 2.0, 5.0
-        else:
-            days_min, days_max = d.watering_benchmark_days_min, d.watering_benchmark_days_max
+        # Thresholds derived from research_v2 species parameters
+        _THRESHOLDS    = {"Minimum": 0.22, "Average": 0.28, "Frequent": 0.38}
+        _BENCH_DAYS    = {"Minimum": 7.0,  "Average": 7.0,  "Frequent": 3.0}
 
         species_int_id = self._uuid_to_int(plant_row.get("species_cache_id") or "default")
         return pd.DataFrame([{
-            "species_id": species_int_id,
-            "watering_benchmark_days_min": days_min,
-            "watering_benchmark_days_max": days_max,
-            "watering_category_num": watering_num,
-            "drought_tolerant": d.drought_tolerant,
-            "watering": watering_text,
+            "species_id":        species_int_id,
+            "watering_category": watering_text,
+            "benchmark_days_min": _BENCH_DAYS.get(watering_text, 7.0),
+            "drought_tolerant":  d.drought_tolerant,
+            "water_threshold":   _THRESHOLDS.get(watering_text, 0.28),
         }])

@@ -114,7 +114,7 @@ class Predictor:
         snapshot = feat.sort_values("timestamp_utc").iloc[-1]
         current_moisture = float(snapshot["soil_moisture"])
 
-        watering = data["species"]["watering"].iloc[0] if len(data["species"]) else "Average"
+        watering = data["species"]["watering_category"].iloc[0] if len(data["species"]) else "Average"
         if watering == "Minimum":
             low_thr, high_tgt = 0.20, 0.55
         elif watering == "Frequent":
