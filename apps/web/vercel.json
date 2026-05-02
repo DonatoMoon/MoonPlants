@@ -1,0 +1,9 @@
+{
+  "crons": [
+    {
+      "path": "/api/v1/cron/predict",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
+
