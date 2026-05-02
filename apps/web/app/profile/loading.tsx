@@ -1,6 +1,4 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { BackgroundScene } from '@/components/layout/BackgroundScene';
 import Container from '@/components/layout/Container';
 import { PageHeader } from '@/components/primitives/PageHeader';
@@ -10,8 +8,8 @@ import {
     PlantsGridSkeleton,
 } from '@/components/profile/skeletons';
 
-export default function ProfileLoading() {
-    const t = useTranslations('ProfilePage');
+export default async function ProfileLoading() {
+    const t = await getTranslations('ProfilePage');
     return (
         <BackgroundScene variant="profile">
             <Container className="flex-1 py-8 md:py-12">

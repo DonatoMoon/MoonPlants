@@ -1,6 +1,4 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Calendar, Container as ContainerIcon, Droplet } from 'lucide-react';
 import { BackgroundScene } from '@/components/layout/BackgroundScene';
 import Container from '@/components/layout/Container';
@@ -9,8 +7,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Stat } from '@/components/primitives/Stat';
 import { MLPredictionSkeleton } from '@/components/profile/skeletons';
 
-export default function PlantDetailLoading() {
-    const t = useTranslations('PlantDetail');
+export default async function PlantDetailLoading() {
+    const t = await getTranslations('PlantDetail');
     return (
         <BackgroundScene variant="profile">
             <Container className="flex-1 py-8 md:py-12">
