@@ -177,7 +177,7 @@ export async function predictNextWatering(
  * Returns true if watering should proceed, false if should cancel/reschedule.
  */
 export async function doubleCheckBeforeWatering(
-    plantId: string
+    _plantId: string
 ): Promise<{ shouldWater: boolean; reason: string }> {
     // TEMPORARILY DISABLED FOR TESTING
     return {

@@ -1,7 +1,7 @@
 // lib/services/prediction.service.ts
 
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import { predictNextWatering } from "@/lib/predictions/rule-based";
+import { fetchMLPrediction, saveMLPrediction } from "@/lib/predictions/ml-api";
 import { IoTService } from "./iot.service";
 
 export class PredictionService {
@@ -13,6 +13,21 @@ export class PredictionService {
             errors: [] as {plantId: string; error: string}[]
         };
 
+        // 0. Check if cron is globally enabled
+        const { data: settings } = await supabase
+            .from("app_settings")
+            .select("is_cron_enabled")
+            .eq("id", 1)
+            .single();
+
+        if (settings && settings.is_cron_enabled === false) {
+            console.log("[PredictionService] Cron jobs are globally disabled via app_settings.");
+            return {
+                ...results,
+                message: "Cron is manually disabled in system settings."
+            };
+        }
+
         // 1. Fetch all plants linked to a device
         const { data: plants, error } = await supabase
             .from("plants")
@@ -23,23 +38,24 @@ export class PredictionService {
 
         for (const plant of (plants || [])) {
             try {
-                // 2. Run prediction logic (this also saves prediction to DB)
-                const prediction = await predictNextWatering(plant.id);
+                // 2. Run ML prediction logic (fetch and save)
+                const mlData = await fetchMLPrediction(plant.id);
+                const prediction = await saveMLPrediction(plant.id, mlData);
                 results.processed++;
 
                 // 3. Auto-watering check
                 if (
                     plant.auto_watering_enabled && 
-                    prediction.nextWateringAt && 
-                    new Date(prediction.nextWateringAt) <= new Date() &&
-                    prediction.recommendedWaterMl
+                    prediction.next_watering_at &&
+                    new Date(prediction.next_watering_at) <= new Date() &&
+                    prediction.recommended_water_ml
                 ) {
                     console.log(`[PredictionService] Auto-watering triggered for plant ${plant.id}`);
                     
                     const waterRes = await IoTService.waterPlant(
                         plant.owner_user_id,
                         plant.id,
-                        prediction.recommendedWaterMl
+                        prediction.recommended_water_ml
                     );
 
                     if (waterRes.success && !waterRes.warning) {

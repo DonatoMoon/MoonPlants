@@ -7,6 +7,24 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
     public: {
         Tables: {
+            app_settings: {
+                Row: {
+                    id: number;
+                    is_cron_enabled: boolean;
+                    updated_at: string;
+                };
+                Insert: {
+                    id?: number;
+                    is_cron_enabled?: boolean;
+                    updated_at?: string;
+                };
+                Update: {
+                    id?: number;
+                    is_cron_enabled?: boolean;
+                    updated_at?: string;
+                };
+                Relationships: [];
+            };
             devices: {
                 Row: {
                     id: string;
@@ -368,4 +386,3 @@ export type Database = {
         CompositeTypes: Record<string, never>;
     };
 };
-

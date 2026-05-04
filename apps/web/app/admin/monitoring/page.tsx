@@ -52,7 +52,7 @@ export default function MonitoringPage() {
                             To view metrics, set up a free Grafana Cloud account, configure it to scrape your Railway ML API endpoint, and add the dashboard URL to your environment variables.
                         </p>
                         <code className="bg-muted p-2 rounded text-xs break-all">
-                            NEXT_PUBLIC_GRAFANA_EMBED_URL="https://your-org.grafana.net/d/..."
+                            NEXT_PUBLIC_GRAFANA_EMBED_URL=&quot;https://your-org.grafana.net/d/...&quot;
                         </code>
                         </div>
                     </div>
@@ -61,5 +61,6 @@ export default function MonitoringPage() {
         </div>
     );
 }
+
 
 

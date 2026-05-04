@@ -22,7 +22,7 @@ export default function AdminSettingsClient({
                 toast.success(
                     `Cron feature has been ${checked ? 'enabled' : 'disabled'}`
                 );
-            } catch (err: unknown) {
+            } catch {
                 // Revert state if failed
                 setCronEnabled(!checked);
                 toast.error('Failed to update cron setting');
@@ -57,3 +57,4 @@ export default function AdminSettingsClient({
         </div>
     );
 }
+
