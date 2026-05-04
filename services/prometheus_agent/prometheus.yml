@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 60s
+
+remote_write:
+  - url: https://prometheus-prod-65-prod-eu-west-2.grafana.net/api/prom/push
+    basic_auth:
+      username: 3166582
+      password_file: /etc/prometheus/grafana_token
+
+scrape_configs:
+  - job_name: 'moonplants_api'
+    metrics_path: '/metrics'
+    scheme: 'https'  # FastAPI на Railway має HTTPS авто-сертифікат
+    static_configs:
+      # Домен вашого ML API на Railway (без https:// і без /)
+      - targets: ['moonplants-production.up.railway.app']
+
+
+

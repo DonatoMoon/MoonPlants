@@ -4,6 +4,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security.api_key import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import Gauge, Counter
 
 from app.schemas import PredictRequest, PredictResponse, HealthResponse
 from app.predictor import Predictor
@@ -13,6 +15,16 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(na
 predictor = Predictor()
 API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=True)
 
+# Custom Prometheus Metrics
+PREDICTION_CONFIDENCE = Gauge(
+    "moonplants_ml_prediction_confidence",
+    "Confidence score of the specific ML prediction",
+    ["confidence_level"]
+)
+PREDICTION_WATER_ML = Gauge(
+    "moonplants_ml_recommended_water_ml",
+    "Recommended water amount in ml"
+)
 
 def verify_api_key(api_key: str = Security(API_KEY_HEADER)):
     expected = os.environ.get("API_SECRET_KEY", "")
@@ -35,6 +47,20 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Instrument the FastAPI app for Prometheus
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    should_ignore_untemplated=True,
+    should_instrument_requests_inprogress=True,
+    excluded_handlers=[".*admin.*", "/metrics"],
+    inprogress_name="inprogress",
+    inprogress_labels=True,
+).instrument(app)
+
+@app.on_event("startup")
+async def _startup():
+    instrumentator.expose(app)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://*.vercel.app", "http://localhost:3000"],
@@ -55,6 +81,14 @@ def predict(request: PredictRequest, _=Depends(verify_api_key)):
             plant_uuid=request.plant_id,
             reference_time=request.reference_time,
         )
+
+        # Log custom metrics
+        conf_level = result.get("confidence", "unknown")
+        PREDICTION_CONFIDENCE.labels(confidence_level=conf_level).set(
+            1.0 if conf_level == "high" else (0.5 if conf_level == "medium" else 0.1)
+        )
+        PREDICTION_WATER_ML.set(result.get("recommended_ml", 0))
+
         return PredictResponse(**result)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
