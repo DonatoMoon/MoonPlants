@@ -1,6 +1,6 @@
 // lib/predictions/ml-api.ts
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import type { Json } from "@/lib/supabase/database.types";
+import type { Database, Json } from "@/lib/supabase/database.types";
 
 export interface MLPredictionResponse {
     plant_id: string;
@@ -62,7 +62,7 @@ export async function fetchMLPrediction(plantId: string): Promise<MLPredictionRe
     return response.json();
 }
 
-export async function saveMLPrediction(plantId: string, mlData: MLPredictionResponse) {
+export async function saveMLPrediction(plantId: string, mlData: MLPredictionResponse): Promise<Database["public"]["Tables"]["predictions"]["Row"]> {
     const supabase = createSupabaseAdmin();
 
     const nextWateringAt = new Date();
@@ -91,5 +91,5 @@ export async function saveMLPrediction(plantId: string, mlData: MLPredictionResp
         throw error;
     }
 
-    return data;
+    return data as Database["public"]["Tables"]["predictions"]["Row"];
 }
