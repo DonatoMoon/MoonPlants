@@ -48,6 +48,7 @@ app = FastAPI(
 )
 
 # Instrument the FastAPI app for Prometheus
+# expose(app) викликається одразу — НЕ в on_event (несумісно з lifespan)
 instrumentator = Instrumentator(
     should_group_status_codes=False,
     should_ignore_untemplated=True,
@@ -55,11 +56,7 @@ instrumentator = Instrumentator(
     excluded_handlers=[".*admin.*", "/metrics"],
     inprogress_name="inprogress",
     inprogress_labels=True,
-).instrument(app)
-
-@app.on_event("startup")
-async def _startup():
-    instrumentator.expose(app)
+).instrument(app).expose(app)
 
 app.add_middleware(
     CORSMiddleware,
